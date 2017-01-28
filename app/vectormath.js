@@ -35,7 +35,7 @@ function vector_magnitude(v) {
     return Math.sqrt(m);
 }
 
-module.exports = {
+export default {
     add: vector_add,
     subtract: vector_subtract,
     magnitude: vector_magnitude

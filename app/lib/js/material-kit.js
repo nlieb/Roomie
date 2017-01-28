@@ -13,13 +13,13 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  
  */
+/* eslint-disable */
+let transparent = true;
 
-var transparent = true;
+let transparentDemo = true;
+let fixedTop = false;
 
-var transparentDemo = true;
-var fixedTop = false;
-
-var navbar_initialized = false;
+let navbar_initialized = false;
 
 $(document).ready(function(){
 
@@ -38,7 +38,7 @@ $(document).ready(function(){
 
     // Check if we have the class "navbar-color-on-scroll" then add the function to remove the class "navbar-transparent" so it will transform to a plain color.
     if($('.navbar-color-on-scroll').length != 0){
-        $(window).on('scroll', materialKit.checkScrollForTransparentNavbar)
+        $(window).on('scroll', materialKit.checkScrollForTransparentNavbar);
     }
 
     // Activate Popovers
@@ -74,7 +74,7 @@ materialKit = {
         // Sliders for demo purpose
         $('#sliderRegular').noUiSlider({
             start: 40,
-            connect: "lower",
+            connect: 'lower',
             range: {
                 min: 0,
                 max: 100
@@ -90,14 +90,14 @@ materialKit = {
             }
         });
     }
-}
+};
 
 
-var big_image;
+let big_image;
 
 materialKitDemo = {
     checkScrollForParallax: debounce(function(){
-        var current_scroll = $(this).scrollTop();
+        let current_scroll = $(this).scrollTop();
 
         oVal = ($(window).scrollTop() / 3);
         big_image.css({
@@ -109,16 +109,16 @@ materialKitDemo = {
 
     }, 6)
 
-}
+};
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
 
 function debounce(func, wait, immediate) {
-	var timeout;
+	let timeout;
 	return function() {
-		var context = this, args = arguments;
+		let context = this, args = arguments;
 		clearTimeout(timeout);
 		timeout = setTimeout(function() {
 			timeout = null;
@@ -126,4 +126,4 @@ function debounce(func, wait, immediate) {
 		}, wait);
 		if (immediate && !timeout) func.apply(context, args);
 	};
-};
+}

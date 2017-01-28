@@ -13,6 +13,6 @@ export default class RoomView {
         console.log('draw state', state);
 
         this.svg
-            .attr('viewbox', '0 0 '+state.room.height + ' ' + state.room.width);
+            .attr('viewbox', '0 0 '+state.room.size.height + ' ' + state.room.size.width);
     }
 }
