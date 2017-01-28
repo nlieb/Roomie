@@ -22,12 +22,12 @@ let startState = {
          b:  1, // half diagonal length of the bounding box
          d: 2, // distance to nearest wall
          theta: 0, // angle to nearest wall
-         accessibilityAreas: [{ a: [5, 5], theta: 0},
-                              { a: [15, 5], theta: 0},
-                              { a: [5, 15], theta: 0},
-                              { a: [15, 15], theta: 0},
+         accessibilityAreas: [{ a: [5, 5], ad: 1},
+                              { a: [15, 5], ad: 1},
+                              { a: [5, 15], ad: 1},
+                              { a: [15, 15], ad: 1},
                              ], // ax, ay, atheta relative to px py, theta
-         viewFrustum: [{ v: [0, 0], vd: 0, vtheta: 0 },
+         viewFrustum: [{ v: [0, 0], vd: 1, vtheta: 0 },
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
         },
@@ -36,12 +36,12 @@ let startState = {
          b:  0, // half diagonal length of the bounding box
          d: 0, // distance to nearest wall
          theta: 0, // angle to nearest wall
-         accessibilityAreas: [{ a: [5, 5], atheta: 0},
-                              { a: [15, 5], atheta: 0},
-                              { a: [5, 15], atheta: 0},
-                              { a: [15, 15], atheta: 0},
+         accessibilityAreas: [{ a: [5, 5], ad: 1},
+                              { a: [15, 5], ad: 1},
+                              { a: [5, 15], ad: 1},
+                              { a: [15, 15], ad: 1},
                              ], // a, atheta relative to p, theta
-         viewFrustum: [{ v: [0, 0], vd: 0, vtheta: 0 },
+         viewFrustum: [{ v: [0, 0], vd: 1, vtheta: 0 },
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
         }

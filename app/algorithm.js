@@ -26,25 +26,27 @@ export default class Algorithm {
            given with the provided room objects
         **/
         let curRoom = this.generateRoom(this.state.objects);
+        let curEnergy = this.evalRoom(curRoom);
         let bestRoom = curRoom;
-        let bestCost = this.evalRoom(curRoom);
+        let bestEnergy = curEnergy;
         
         while(this.temp > 1){
-            let tempRoom = this.generateRoom(curRoom);
-            let cost = this.evalRoom(curRoom);
+            let newRoom = this.generateRoom(curRoom);
+            let newEnergy = this.evalRoom(newRoom);
 
-            if ( this.acceptProbability(bestCost, cost) > Math.random() ){
-                curRoom = tempRoom;
+            if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
+                curRoom = newRoom;
+                curEnergy = newEnergy;
             }
             
-            if (cost < bestCost){
-                bestRoom = tempRoom;
-                bestCost = cost;
+            if (curEnergy < bestEnergy){
+                bestRoom = curRoom;
+                bestEnergy = curEnergy;
             }
-            
+
             this.temp *= this.coolRate;
         }
-        console.log('Best room has a cost of', bestCost);
+        console.log('Best room has a cost of', bestEnergy);
     }
     
     evalRoom(room){
@@ -54,12 +56,12 @@ export default class Algorithm {
         return 0.1*accCost + 0.01*visCost;
     }
 
-    acceptProbability(bestScore, proposedScore){
-        if (bestScore < proposedScore) { // if the solution is better, accept it
+    acceptProbability(cost, newCost){
+        if (newCost < cost) { // if the solution is better, accept it
             return 1.0;
         }
         // If the new solution is worse, calculate an acceptance probability
-        return Math.exp((bestScore - proposedScore) / this.temp);
+        return Math.exp((newCost - cost) / this.temp);
     }
 
     generateRoom(room){
@@ -82,9 +84,11 @@ export default class Algorithm {
                     return;
 
                 for(let area of j.accessibilityAreas) {
-                    cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / (i.b + area.ad)));
+                    let dem = i.b + area.ad;
+                        if (dem == 0)
+                            throw new Error('Error: Division by 0 at accessibility');
+                    cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / dem));
                 }
-
             });
         });
 
@@ -106,7 +110,11 @@ export default class Algorithm {
                         return;
 
                     for(let viewBox of j.viewFrustum) {
-                        cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, viewBox.v)) / (i.b + viewBox.vd)));
+                        let dem = i.b + viewBox.vd;
+                        if (dem == 0)
+                            throw new Error('Error: Division by 0 at visbility');
+
+                        cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, viewBox.v)) / dem));
                     }
 
                 });
