@@ -10,13 +10,21 @@ var compute_room;
 
 (function(){
     function eval_room(){
+        
+    }
+
+    function generate_room(){
 
 
     }
 
+
     compute_room = function(room_objects){
+        this.inital_temp = 10000;
+        this.cool_rate = 1 - 0.003;
 
-
+        console.log("TETS", this.inital_temp);
+        return this.cool_rate;
     }
 
 })();
