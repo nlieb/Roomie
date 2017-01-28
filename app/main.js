@@ -1,5 +1,6 @@
 
 
+import './lib/css/bootstrap.min.css';
 import './lib/css/material-kit.css';
 
 import './lib/js/jquery.min.js';
