@@ -1,30 +1,32 @@
-"use strict";
-
-/*
-This function exposes one function, 'compute_room'
-that will be called from the interface to find
-the optimal room layout.
- */
-
-var compute_room;
-
-(function(){
-    function eval_room(){
-        
-    }
-
-    function generate_room(){
+'use strict';
 
 
-    }
 
+export default class Algorithm {
+    constructor(RoomObjects, options){
+        console.log('TEST', options);
+        this.inital_temp = options['inital_temp'];
+        this.cool_rate = 1 - options['cool_rate'];
+        this.objects = RoomObjects;
 
-    compute_room = function(room_objects){
-        this.inital_temp = 10000;
-        this.cool_rate = 1 - 0.003;
-
-        console.log("TETS", this.inital_temp);
+        console.log('TETS', this.inital_temp);
         return this.cool_rate;
+
     }
 
-})();
+    compute_room(){
+
+
+    }
+    
+    eval_room(){
+
+
+    }
+
+    generate_room(){
+
+
+    }
+
+}
