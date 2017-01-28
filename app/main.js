@@ -15,33 +15,43 @@ import RoomView from './room';
 import Algorithm from './algorithm';
 import Options from './options';
 
+import VectorMath from '.vectormath';
+
 let startState = {
     objects: [
-        {type: 'table',
-         p: [20, 20],
-         b:  1, // half diagonal length of the bounding box
-         d: 2, // distance to nearest wall
-         theta: 0, // angle to nearest wall
-         accessibilityAreas: [{ a: [5, 5], theta: 0},
-                              { a: [15, 5], theta: 0},
-                              { a: [5, 15], theta: 0},
-                              { a: [15, 15], theta: 0},
+        {type: 'chair',
+         p: [20, 25],
+         width: 8,
+         height: 8,
+         b:  VectorMath.magnitude(VectorMath.subtract(p, [p[0] - width / 2, p[1] - height / 2])), // half diagonal length of the bounding box
+         d: 20, // distance to nearest wall
+         thetaWall: 90, // angle to nearest wall
+         theta: 0,
+         accessibilityAreas: [  { a: [0, 5], ad: 1},
+                                { a: [-5, 0], ad: 1},
+                                { a: [0, -5], ad: 1},
+                                { a: [5, 0], ad: 1},
                              ], // ax, ay, atheta relative to px py, theta
-         viewFrustum: [{ v: [0, 0], vd: 0, vtheta: 0 },
+         viewFrustum: [{ v: [0, 5], vd: 1 },
+                       { v: [0, 7], vd: 1 },
+                        { v: [0, 9], vd: 1 },
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
         },
         {type: 'table',
-         p: [40, 40],
-         b:  0, // half diagonal length of the bounding box
-         d: 0, // distance to nearest wall
-         theta: 0, // angle to nearest wall
-         accessibilityAreas: [{ a: [5, 5], atheta: 0},
-                              { a: [15, 5], atheta: 0},
-                              { a: [5, 15], atheta: 0},
-                              { a: [15, 15], atheta: 0},
-                             ], // a, atheta relative to p, theta
-         viewFrustum: [{ v: [0, 0], vd: 0, vtheta: 0 },
+         p: [50, 40],
+         width: 24,
+         height: 12,
+         b: VectorMath.magnitude(VectorMath.subtract(p, [p[0] - width / 2, p[1] - height / 2])), // half diagonal length of the bounding box
+         d: 40, // distance to nearest wall
+         thetaWall: 0, // angle to nearest wall
+         theta: 0,
+         accessibilityAreas: [  { a: [0, 9], ad: 3},
+                                { a: [-15, 0], ad: 3},
+                                { a: [0, -9], ad: 3},
+                                { a: [15, 0], ad: 3},
+                             ], // ax, ay, atheta relative to px py, theta
+         viewFrustum: [
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
         }
@@ -62,7 +72,7 @@ class App {
             roomView: new RoomView(this),
         };
         const options =  Options.options;
-        const algo = new Algorithm(startState, options); 
+        const algo = new Algorithm(this, startState, options);
 
         const initialState = startState;
 

@@ -9,10 +9,11 @@ the optimal room layout.
  */
 
 export default class Algorithm {
-    constructor(state, options){
+    constructor(app, state, options){
         this.temp = options['initalTemp'];
         this.coolRate = 1 - options['coolRate'];
         this.state = state;
+        this.app = app;
 
         console.log('TEST', state.objects);
 
@@ -28,10 +29,11 @@ export default class Algorithm {
         let curRoom = this.generateRoom(this.state.objects);
         let bestRoom = curRoom;
         let bestCost = this.evalRoom(curRoom);
-        
+
+        let i = 0;
         while(this.temp > 1){
             let tempRoom = this.generateRoom(curRoom);
-            let cost = this.evalRoom(curRoom);
+            let cost = this.evalRoom(curRoom, tempRoom);
 
             if ( this.acceptProbability(bestCost, cost) > Math.random() ){
                 curRoom = tempRoom;
@@ -43,14 +45,18 @@ export default class Algorithm {
             }
             
             this.temp *= this.coolRate;
+            if(i++ % 1000 === 0)
+                this.app.updateState(bestRoom);
         }
         console.log('Best room has a cost of', bestCost);
+        this.app.updateState(bestRoom);
     }
     
-    evalRoom(room){
+    evalRoom(room, prevRoom){
         let accCost = this.accessibilityCost(room);
         let visCost = this.visibilityCost(room);
-        
+        let { prevDCost, prevTCost } = this.priorCost(room, prevRoom);
+
         return 0.1*accCost + 0.01*visCost;
     }
 
@@ -82,6 +88,7 @@ export default class Algorithm {
                     return;
 
                 for(let area of j.accessibilityAreas) {
+                    //TODO: Consider that area is relative to p
                     cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / (i.b + area.ad)));
                 }
 
@@ -122,7 +129,7 @@ export default class Algorithm {
 
         curState.forEach(function(i, i_index) {
             dCost += Math.abs(i.d - prevState[i_index].d);
-            tCost += Math.abs(i.theta - prevState[i_index].theta);
+            tCost += Math.abs(i.thetaWall - prevState[i_index].thetaWall);
         });
 
         return {dCost, tCost};
