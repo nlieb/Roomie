@@ -10,7 +10,7 @@ the optimal room layout.
 
 export default class Algorithm {
     constructor(RoomObjects, options){
-        this.inital_temp = options['inital_temp'];
+        this.temp = options['inital_temp'];
         this.cool_rate = 1 - options['cool_rate'];
         this.objects = RoomObjects;
 
@@ -19,11 +19,36 @@ export default class Algorithm {
     }
 
     compute_room(){
-        let room = this.generate_room();
-        console.log('TES', room);
+        /*let cur_room = this.generate_room();
+        let cur_room_score = this.eval_room(cur_room);
+        let best_room = cur_room;
+        let best_room_score = cur_room_score;
+
+        while(this.temp > 1){
+            cur_room = this.generate_room();
+            cur_room_score = this.eval_room(cur_room);
+
+            if ( this.accept_probability(best_score, proposed_score) > Math.random()){
+
+            }
+
+            if (cur_room_score > best_room_score){
+                best_room = cur_room;
+                best_room_score = cur_room_score;
+            }
+
+            this.temp *= this.cool_rate;
+        }*/
     }
 
-    eval_room(){
+    eval_room(room){
+        this.temp;
+
+    }
+
+    accept_probability(best_score, proposed_score){
+
+        // this.temp
 
 
     }
@@ -47,7 +72,7 @@ export default class Algorithm {
                     return;
 
                 for(let area in j.accessibilityAreas) {
-                    cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / (i.b + area.ad)));
+                    cost += Math.max(0, 1 - (vector_magnitude(vector_subtract(i.p, area.a)) / (i.b + area.ad)));
                 }
 
             });

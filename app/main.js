@@ -1,6 +1,6 @@
 
 
-//import './lib/material-kit/style.css';
+import './lib/css/material-kit.css';
 import RoomView from './room';
 import Algorithm from './algorithm';
 import Options from './options';
