@@ -1,17 +1,24 @@
 
 
-
+//import './lib/material-kit/style.css';
 import RoomView from './room';
 
 class App {
     constructor() {
-        const roomView = new RoomView(this);
+        this.views = {
+            roomView: new RoomView(this),
+        };
 
-        let initialState = {
+        const initialState = {
             objects: [],
         };
 
-        roomView.draw(initialState);
+        this.updateState(initialState);
+    }
+
+    updateState(state) {
+        this.state = state;
+        this.views.roomView.draw(this.state);
     }
 }
 
