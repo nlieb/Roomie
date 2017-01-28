@@ -2,13 +2,12 @@
 
 import './lib/css/material-kit.css';
 
-/* eslint-disable */
-import './lib/js/bootstrap.min.js';
 import './lib/js/jquery.min.js';
+import './lib/js/bootstrap.min.js';
 import './lib/js/material.min.js';
 import './lib/js/material-kit.js';
 import './lib/js/nouislider.min.js';
-/* eslint-enable */
+
 
 import './style.scss';
 import RoomView from './room';
