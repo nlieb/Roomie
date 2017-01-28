@@ -7,6 +7,7 @@
     "babel-polyfill": "^6.22.0",
     "d3": "3.5.17",
     "d3-hierarchy": "^1.0.3",
+    "file-loader": "^0.10.0",
     "material-kit": "^0.0.1"
   },
   "devDependencies": {
