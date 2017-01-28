@@ -1,10 +1,6 @@
 'use strict';
 
-/*
-This function exposes one function, 'compute_room'
-that will be called from the interface to find
-the optimal room layout.
- */
+
 
 export default class Algorithm {
     constructor(RoomObjects, options){
@@ -17,11 +13,23 @@ export default class Algorithm {
     }
 
     compute_room(){
-        let room = this.generate_room();
-        console.log('TES', room);
-    }
+        let best_room = this.generate_room();
+        let best_room_score = eval_room(best_room);
 
-    eval_room(){
+        while(this.temp > 1){
+
+            cur_room = generate_room;
+            
+            if (cur_room_score > best_room_score){
+                best_room = cur_room;
+                best_room_score = cur_room_score;
+            }
+            
+            this.temp *= this.cool_rate;
+        }
+    }
+    
+    eval_room(room){
 
 
     }
