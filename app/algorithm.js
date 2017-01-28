@@ -56,12 +56,12 @@ export default class Algorithm {
         return 0.1*accCost + 0.01*visCost;
     }
 
-    acceptProbability(cost, newCost){
-        if (newCost < cost) { // if the solution is better, accept it
+    acceptProbability(energy, newEnergy){
+        if (newEnergy < energy) { // if the solution is better, accept it
             return 1.0;
         }
         // If the new solution is worse, calculate an acceptance probability
-        return Math.exp((newCost - cost) / this.temp);
+        return Math.exp((energy - newEnergy) / this.temp);
     }
 
     generateRoom(room){
