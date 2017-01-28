@@ -57,6 +57,7 @@ export default class Algorithm {
         return this.objects;
     }
 
+    //TODO: Combine accessibiltyCost and visibilityCost
     accessibilityCost() {
         /**
          * i is the parent object
@@ -72,7 +73,7 @@ export default class Algorithm {
                     return;
 
                 for(let area in j.accessibilityAreas) {
-                    cost += Math.max(0, 1 - (vector_magnitude(vector_subtract(i.p, area.a)) / (i.b + area.ad)));
+                    cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / (i.b + area.ad)));
                 }
 
             });
@@ -81,5 +82,29 @@ export default class Algorithm {
         return cost;
     }
 
-    //TODO: Visibility Cost
+    visibilityCost() {
+            /**
+             * i is the parent object
+             * j is the child object
+             */
+
+            let cost = 0;
+
+            this.objects.forEach(function(i_objects, i_index, i) {
+                this.objects.forEach(function(j_objects, j_index, j) {
+
+                    if(i_index === j_index)
+                        return;
+
+                    for(let viewBox in j.viewFrustum) {
+                        cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, viewBox.v)) / (i.b + viewBox.vd)));
+                    }
+
+                });
+            });
+
+        return cost;
+    }
+
+
 }
