@@ -1,11 +1,6 @@
 'use strict';
 
-export default class Options {
-    constructor(){
-        // set_default options
-    }
-
-    edit_options(){
-
-    }
-}
+exports.options = {
+    'cool_rate': 0.003,
+    'inital_temp': 10000,
+};
