@@ -6,7 +6,7 @@
   "dependencies": {
     "babel-polyfill": "^6.22.0",
     "d3": "3.5.17",
-    "d3-hierarchy": "^1.0.3",
+    "d3-hierarchy": "^1.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
