@@ -8,19 +8,17 @@ the optimal room layout.
 
 export default class Algorithm {
     constructor(RoomObjects, options){
-        console.log('TEST', options);
         this.inital_temp = options['inital_temp'];
         this.cool_rate = 1 - options['cool_rate'];
         this.objects = RoomObjects;
 
-        console.log('TETS', this.inital_temp);
         return this.cool_rate;
 
     }
 
     compute_room(){
-
-
+        let room = this.generate_room();
+        console.log('TES', room);
     }
 
     eval_room(){
@@ -29,8 +27,7 @@ export default class Algorithm {
     }
 
     generate_room(){
-
-
+        return this.objects;
     }
 
     accessibilityCost() {
