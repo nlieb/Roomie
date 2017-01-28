@@ -14,12 +14,12 @@ import RoomView from './room';
 import Algorithm from './algorithm';
 import Options from './options';
 
-let start_state = {
+let startState = {
     objects: [
         {type: 'table',
          p: [20, 20],
-         b:  0, // half diagonal length of the bounding box
-         d: 0, // distance to nearest wall
+         b:  1, // half diagonal length of the bounding box
+         d: 2, // distance to nearest wall
          theta: 0, // angle to nearest wall
          accessibilityAreas: [{ a: [5, 5], theta: 0},
                               { a: [15, 5], theta: 0},
@@ -61,12 +61,12 @@ class App {
             roomView: new RoomView(this),
         };
         const options =  Options.options;
-        const algo = new Algorithm(start_state, options); 
+        const algo = new Algorithm(startState, options); 
 
-        const initialState = start_state;
+        const initialState = startState;
 
         this.updateState(initialState);
-	algo.compute_room();
+        algo.computeRoom();
     }
 
     updateState(state) {
