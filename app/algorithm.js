@@ -13,26 +13,26 @@ export default class Algorithm {
     }
 
     compute_room(){
-        /*let cur_room = this.generate_room();
-        let cur_room_score = this.eval_room(cur_room);
+        let cur_room = this.generate_room();
+        let cur_score = this.eval_room(cur_room);
         let best_room = cur_room;
-        let best_room_score = cur_room_score;
+        let best_score = cur_score;
         
         while(this.temp > 1){
             cur_room = this.generate_room();
-            cur_room_score = this.eval_room(cur_room);
+            cur_score = this.eval_room(cur_room);
 
-            if ( this.accept_probability(best_score, proposed_score) > Math.random()){
-                
+            if ( this.accept_probability(best_score, cur_score) > Math.random()){
+                console.log('accepted');
             }
             
-            if (cur_room_score > best_room_score){
+            if (cur_score > best_score){
                 best_room = cur_room;
-                best_room_score = cur_room_score;
+                best_score = cur_score;
             }
             
             this.temp *= this.cool_rate;
-        }*/
+        }
     }
     
     eval_room(room){
@@ -42,9 +42,7 @@ export default class Algorithm {
 
     accept_probability(best_score, proposed_score){
 
-        // this.temp
-
-
+        return 1.0;
     }
 
     generate_room(){
