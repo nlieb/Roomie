@@ -66,7 +66,7 @@ class App {
         const initialState = start_state;
 
         this.updateState(initialState);
-	algo.compute_room();
+        algo.compute_room();
     }
 
     updateState(state) {
