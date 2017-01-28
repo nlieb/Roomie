@@ -32,8 +32,8 @@ let startState = {
                                 { a: [0, -5], ad: 1},
                                 { a: [5, 0], ad: 1},
                              ], // ax, ay, atheta relative to px py, theta
-         viewFrustum: [{ v: [0, 5], vd: 1 },
-                       { v: [0, 7], vd: 1 },
+         viewFrustum: [ { v: [0, 5], vd: 1 },
+                        { v: [0, 7], vd: 1 },
                         { v: [0, 9], vd: 1 },
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
