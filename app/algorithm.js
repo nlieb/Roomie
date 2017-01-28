@@ -1,6 +1,12 @@
 'use strict';
 
+import vectormath from './vectormath';
 
+/*
+This function exposes one function, 'compute_room'
+that will be called from the interface to find
+the optimal room layout.
+ */
 
 export default class Algorithm {
     constructor(RoomObjects, options){
@@ -17,24 +23,24 @@ export default class Algorithm {
         let cur_room_score = this.eval_room(cur_room);
         let best_room = cur_room;
         let best_room_score = cur_room_score;
-        
+
         while(this.temp > 1){
             cur_room = this.generate_room();
             cur_room_score = this.eval_room(cur_room);
 
             if ( this.accept_probability(best_score, proposed_score) > Math.random()){
-                
+
             }
-            
+
             if (cur_room_score > best_room_score){
                 best_room = cur_room;
                 best_room_score = cur_room_score;
             }
-            
+
             this.temp *= this.cool_rate;
         }*/
     }
-    
+
     eval_room(room){
         this.temp;
 
@@ -52,6 +58,11 @@ export default class Algorithm {
     }
 
     accessibilityCost() {
+        /**
+         * i is the parent object
+         * j is the child object
+         */
+
         let cost = 0;
 
         this.objects.forEach(function(i_objects, i_index, i) {
@@ -70,38 +81,5 @@ export default class Algorithm {
         return cost;
     }
 
-
-}
-
-function vector_add(v1, v2) {
-    let result = [];
-
-    if (v1.length != v2.length)
-        throw new Error('Invalid vectors');
-
-    for (let i = 0; i < v1.length; i++)
-        result[i] = v1[i] + v2[i];
-
-    return result;
-}
-
-function vector_subtract(v1, v2) {
-    let result = [];
-
-    if (v1.length != v2.length)
-        throw new Error('Invalid vectors');
-
-    for (let i = 0; i < v1.length; i++)
-        result[i] = v1[i] - v2[i];
-
-    return result;
-}
-
-function vector_magnitude(v) {
-    let m = 0;
-    for (let e in v) {
-        m += e ^ 2;
-    }
-
-    return Math.sqrt(m);
+    //TODO: Visibility Cost
 }
