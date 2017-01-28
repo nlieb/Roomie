@@ -4,7 +4,7 @@
 
 export default class Algorithm {
     constructor(RoomObjects, options){
-        this.inital_temp = options['inital_temp'];
+        this.temp = options['inital_temp'];
         this.cool_rate = 1 - options['cool_rate'];
         this.objects = RoomObjects;
 
@@ -13,12 +13,18 @@ export default class Algorithm {
     }
 
     compute_room(){
-        let best_room = this.generate_room();
-        let best_room_score = eval_room(best_room);
-
+        /*let cur_room = this.generate_room();
+        let cur_room_score = this.eval_room(cur_room);
+        let best_room = cur_room;
+        let best_room_score = cur_room_score;
+        
         while(this.temp > 1){
+            cur_room = this.generate_room();
+            cur_room_score = this.eval_room(cur_room);
 
-            cur_room = generate_room;
+            if ( this.accept_probability(best_score, proposed_score) > Math.random()){
+                
+            }
             
             if (cur_room_score > best_room_score){
                 best_room = cur_room;
@@ -26,10 +32,17 @@ export default class Algorithm {
             }
             
             this.temp *= this.cool_rate;
-        }
+        }*/
     }
     
     eval_room(room){
+        this.temp;
+
+    }
+
+    accept_probability(best_score, proposed_score){
+
+        // this.temp
 
 
     }
