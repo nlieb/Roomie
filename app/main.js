@@ -1,22 +1,29 @@
 
 
-
+//import './lib/material-kit/style.css';
 import RoomView from './room';
 import Algorithm from './algorithm';
 import Options from './options';
 
 class App {
     constructor() {
-        const roomView = new RoomView(this);
+        this.views = {
+            roomView: new RoomView(this),
+        };
         const options =  Options.options;
-        const algo = new Algorithm({}, options); 
+        const algo = new Algorithm({}, options);
+        algo.compute_room();
 
-        let initialState = {
+        const initialState = {
             objects: [],
         };
 
-        roomView.draw(initialState);
-        algo.compute_room();
+        this.updateState(initialState);
+    }
+
+    updateState(state) {
+        this.state = state;
+        this.views.roomView.draw(this.state);
     }
 }
 
