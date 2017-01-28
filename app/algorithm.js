@@ -30,7 +30,8 @@ export default class Algorithm {
         let curEnergy = this.evalRoom(curRoom);
         let bestRoom = curRoom;
         let bestEnergy = curEnergy;
-        
+
+        let i = 0;
         while(this.temp > 1){
             let newRoom = this.generateRoom(curRoom);
             let newEnergy = this.evalRoom(newRoom, curRoom);
