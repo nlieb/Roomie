@@ -1,5 +1,7 @@
 'use strict';
 
+import vectormath from './vectormath';
+
 /*
 This function exposes one function, 'compute_room'
 that will be called from the interface to find
@@ -31,6 +33,11 @@ export default class Algorithm {
     }
 
     accessibilityCost() {
+        /**
+         * i is the parent object
+         * j is the child object
+         */
+
         let cost = 0;
 
         this.objects.forEach(function(i_objects, i_index, i) {
@@ -40,7 +47,7 @@ export default class Algorithm {
                     return;
 
                 for(let area in j.accessibilityAreas) {
-                    cost += Math.max(0, 1 - (vector_magnitude(vector_subtract(i.p, area.a)) / (i.b + area.ad)));
+                    cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / (i.b + area.ad)));
                 }
 
             });
@@ -49,38 +56,5 @@ export default class Algorithm {
         return cost;
     }
 
-
-}
-
-function vector_add(v1, v2) {
-    let result = [];
-
-    if (v1.length != v2.length)
-        throw new Error('Invalid vectors');
-
-    for (let i = 0; i < v1.length; i++)
-        result[i] = v1[i] + v2[i];
-
-    return result;
-}
-
-function vector_subtract(v1, v2) {
-    let result = [];
-
-    if (v1.length != v2.length)
-        throw new Error('Invalid vectors');
-
-    for (let i = 0; i < v1.length; i++)
-        result[i] = v1[i] - v2[i];
-
-    return result;
-}
-
-function vector_magnitude(v) {
-    let m = 0;
-    for (let e in v) {
-        m += e ^ 2;
-    }
-
-    return Math.sqrt(m);
+    //TODO: Visibility Cost
 }
