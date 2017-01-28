@@ -3,87 +3,99 @@
 import vectormath from './vectormath';
 
 /*
-This function exposes one function, 'compute_room'
+This class exposes one important function, 'computeRoom'
 that will be called from the interface to find
 the optimal room layout.
  */
 
 export default class Algorithm {
-    constructor(RoomObjects, options){
-        this.temp = options['inital_temp'];
-        this.cool_rate = 1 - options['cool_rate'];
-        this.objects = RoomObjects;
+    constructor(state, options){
+        this.temp = options['initalTemp'];
+        this.coolRate = 1 - options['coolRate'];
+        this.state = state;
 
-        return this.cool_rate;
+        console.log('TEST', state.objects);
+
+        return this.coolRate;
 
     }
 
-    compute_room(){
-        let cur_room = this.generate_room(cur_room);
-        let best_room = cur_room;
-        let best_cost = this.eval_room(cur_room);
+    computeRoom(){
+        /**
+           Main function of the algorithm, tries to find the best room
+           given with the provided room objects
+        **/
+        let curRoom = this.generateRoom(this.state.objects);
+        let curEnergy = this.evalRoom(curRoom);
+        let bestRoom = curRoom;
+        let bestEnergy = curEnergy;
         
         while(this.temp > 1){
-            let temp_room = this.generate_room(cur_room);
-            let cost = this.eval_room(cur_room);
+            let newRoom = this.generateRoom(curRoom);
+            let newEnergy = this.evalRoom(newRoom);
 
-            if ( this.accept_probability(best_cost, cost) > Math.random() ){
-                cur_room = temp_room;
+            if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
+                curRoom = newRoom;
+                curEnergy = newEnergy;
             }
             
-            if (cost < best_cost){
-                best_room = temp_room;
-                best_cost = cost;
+            if (curEnergy < bestEnergy){
+                bestRoom = curRoom;
+                bestEnergy = curEnergy;
             }
-            
-            this.temp *= this.cool_rate;
+
+            this.temp *= this.coolRate;
         }
-
-        console.log('Best room has a cost of', best_cost);
+        console.log('Best room has a cost of', bestEnergy);
     }
     
-    eval_room(room){
-        return Math.random();
+    evalRoom(room){
+        let accCost = this.accessibilityCost(room);
+        let visCost = this.visibilityCost(room);
+        
+        return 0.1*accCost + 0.01*visCost;
     }
 
-    accept_probability(best_score, proposed_score){
-        if (best_score < proposed_score) { // if the solution is better, accept it
+    acceptProbability(energy, newEnergy){
+        if (newEnergy < energy) { // if the solution is better, accept it
             return 1.0;
         }
         // If the new solution is worse, calculate an acceptance probability
-        return Math.exp((best_score - proposed_score) / this.temp);
+        return Math.exp((energy - newEnergy) / this.temp);
     }
 
-    generate_room(room){
-        return this.objects;
+    generateRoom(room){
+        return room;
     }
 
     //TODO: Combine accessibiltyCost and visibilityCost
-    accessibilityCost() {
+    accessibilityCost(room) {
         /**
          * i is the parent object
          * j is the child object
          */
 
         let cost = 0;
-
-        this.objects.forEach(function(i_objects, i_index, i) {
-            this.objects.forEach(function(j_objects, j_index, j) {
+        
+        room.forEach(function(i, i_index) {
+            room.forEach(function(j, j_index) {
 
                 if(i_index === j_index)
                     return;
 
-                for(let area in j.accessibilityAreas) {
-                    cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / (i.b + area.ad)));
+                for(let area of j.accessibilityAreas) {
+                    let dem = i.b + area.ad;
+                        if (dem == 0)
+                            throw new Error('Error: Division by 0 at accessibility');
+                    cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / dem));
                 }
-
             });
         });
 
         return cost;
     }
 
-    visibilityCost() {
+    visibilityCost(room) {
             /**
              * i is the parent object
              * j is the child object
@@ -91,14 +103,18 @@ export default class Algorithm {
 
             let cost = 0;
 
-            this.objects.forEach(function(i_objects, i_index, i) {
-                this.objects.forEach(function(j_objects, j_index, j) {
+            room.forEach(function(i, i_index) {
+                room.forEach(function(j, j_index) {
 
                     if(i_index === j_index)
                         return;
 
-                    for(let viewBox in j.viewFrustum) {
-                        cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, viewBox.v)) / (i.b + viewBox.vd)));
+                    for(let viewBox of j.viewFrustum) {
+                        let dem = i.b + viewBox.vd;
+                        if (dem == 0)
+                            throw new Error('Error: Division by 0 at visbility');
+
+                        cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, viewBox.v)) / dem));
                     }
 
                 });
@@ -107,5 +123,18 @@ export default class Algorithm {
         return cost;
     }
 
+    //TODO: Path cost?
 
+    priorCost(curState, prevState) {
+        let dCost = 0, tCost = 0;
+
+        curState.forEach(function(i, i_index) {
+            dCost += Math.abs(i.d - prevState[i_index].d);
+            tCost += Math.abs(i.theta - prevState[i_index].theta);
+        });
+
+        return {dCost, tCost};
+    }
 }
+
+//TODO: updatePosition() updates p and theta, calculates d

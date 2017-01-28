@@ -1,6 +1,6 @@
 'use strict';
 
 exports.options = {
-    'cool_rate': 0.003,
-    'inital_temp': 10000,
+    'coolRate': 0.003,
+    'initalTemp': 10000,
 };
