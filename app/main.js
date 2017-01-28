@@ -1,6 +1,7 @@
 
 
 import './lib/css/material-kit.css';
+import './style.scss';
 import RoomView from './room';
 import Algorithm from './algorithm';
 import Options from './options';
@@ -54,9 +55,7 @@ class App {
         const options =  Options.options;
         const algo = new Algorithm(start_state, options); 
 
-        const initialState = {
-            objects: [],
-        };
+        const initialState = start_state;
 
         this.updateState(initialState);
 	algo.compute_room();
