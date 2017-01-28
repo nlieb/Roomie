@@ -58,7 +58,7 @@ export default class Algorithm {
         return this.objects;
     }
 
-    //TODO: Combine accessibiltyCost and visibilityCost
+    //TODO: Combine cost functions
     accessibilityCost() {
         /**
          * i is the parent object
@@ -67,13 +67,13 @@ export default class Algorithm {
 
         let cost = 0;
 
-        this.objects.forEach(function(i_objects, i_index, i) {
-            this.objects.forEach(function(j_objects, j_index, j) {
+        this.objects.forEach(function(i, i_index) {
+            this.objects.forEach(function(j, j_index) {
 
                 if(i_index === j_index)
                     return;
 
-                for(let area in j.accessibilityAreas) {
+                for(let area of j.accessibilityAreas) {
                     cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / (i.b + area.ad)));
                 }
 
@@ -91,13 +91,13 @@ export default class Algorithm {
 
             let cost = 0;
 
-            this.objects.forEach(function(i_objects, i_index, i) {
-                this.objects.forEach(function(j_objects, j_index, j) {
+            this.objects.forEach(function(i, i_index) {
+                this.objects.forEach(function(j, j_index) {
 
                     if(i_index === j_index)
                         return;
 
-                    for(let viewBox in j.viewFrustum) {
+                    for(let viewBox of j.viewFrustum) {
                         cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, viewBox.v)) / (i.b + viewBox.vd)));
                     }
 
@@ -107,5 +107,18 @@ export default class Algorithm {
         return cost;
     }
 
+    //TODO: Path cost?
 
+    priorCost(curState, prevState) {
+        let dCost = 0, tCost = 0;
+
+        curState.forEach(function(i, i_index) {
+            dCost += Math.abs(i.d - prevState[i_index].d);
+            tCost += Math.abs(i.theta - prevState[i_index].theta);
+        });
+
+        return {dCost, tCost};
+    }
 }
+
+//TODO: updatePosition() updates p and theta, calculates d
