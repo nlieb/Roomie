@@ -63,8 +63,8 @@ class Furniture {
         this.accessibilityAreas.push(area);
     }
 
-    addViewFrustum() {
-        let levels = this.height >> 2; //height / 4: int
+    addViewFrustum(levels) {
+        let levels = levels || this.height >> 2; //height / 4: int
         let offset = this.height / 2 + 1;
 
         for (let i = 0; i < levels; i++) {
@@ -101,6 +101,18 @@ class Table extends Furniture {
         this.addAccessibilityArea('x', -3);
         this.addAccessibilityArea('y', 3);
         this.addAccessibilityArea('y', -3);
+    }
+}
+
+class Couch extends Furniture {
+    constructor(centre, width, height, room, pairwiseCost=false) {
+        super('couch', centre, width, height, 'couch.png', room, pairwiseCost);
+
+        this.addAccessibilityArea('y', 4);
+        this.addAccessibilityArea('x', 1);
+        this.addAccessibilityArea('x', -1);
+
+        this.addViewFrustum(4);
     }
 }
 
