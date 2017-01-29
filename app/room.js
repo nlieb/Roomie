@@ -9,7 +9,7 @@ export default class RoomView {
             .attr('height', 400);
 
         this.config = {
-            transitionDuration: 1000
+            transitionDuration: 400
         };
     }
 

@@ -3,8 +3,8 @@ body {
 }
 
 svg {
-  border: 2px solid #666;
-  margin: 5px auto 0 auto;
+  border: 6px solid #E53935;
+  margin: 80px auto 0 auto;
   display: block;
 }
 
@@ -13,13 +13,18 @@ svg {
   display: block;
 }
 
+.hover {
+  cursor: pointer;
+}
+
 #ItemsInList   {
   padding: 5px 200px 5px 200px;
   display: block;
 }
 
 .button-james-and-nathan-are-making-my-life-harder{
-  background-color: #a50425;
+  margin-top: 5px !important;
+  background-color: #B71C1C;
 }
 
 .button-james-and-nathan-are-making-my-life-harder:hover{
@@ -38,3 +43,10 @@ svg {
   background-color: #a50425;
 }
 
+nav.navbar.navbar-danger {
+  background-color: #C62828;
+}
+
+.navbar-brand {
+  font-weight: 800;
+}
