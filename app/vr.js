@@ -94,37 +94,21 @@ export default class VRView {
         //////////////
         // GEOMETRY //
         //////////////
+
+        //Nathan please loop through stuff in the state here.
             
-        // most objects displayed are a "mesh":
-        //  a collection of points ("geometry") and
-        //  a set of surface parameters ("material")	
-        // Sphere parameters: radius, segments along width, segments along height
-        let sphereGeometry = new THREE.SphereGeometry( 50, 32, 16 ); 
-        // use a "lambert" material rather than "basic" for realistic lighting.
-        //   (don't forget to add (at least one) light!)
-        let sphereMaterial = new THREE.MeshLambertMaterial( {color: 0x8888ff} ); 
-        let sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        sphere.position.set(100, 50, -50);
-        this.scene.add(sphere);
         
-        // Create an array of materials to be used in a cube, one for each side
-        let cubeMaterialArray = [];
-        // order to add materials: x+,x-,y+,y-,z+,z-
-        cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0xff3333 } ) );
-        cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0xff8800 } ) );
-        cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0xffff33 } ) );
-        cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0x33ff33 } ) );
-        cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0x3333ff } ) );
-        cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0x8833ff } ) );
-        let cubeMaterials = new THREE.MeshFaceMaterial( cubeMaterialArray );
+        let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
         // Cube parameters: width (x), height (y), depth (z), 
         //        (optional) segments along x, segments along y, segments along z
-        let cubeGeometry = new THREE.CubeGeometry( 100, 100, 100, 1, 1, 1 );
+        let cubeGeometry = new THREE.CubeGeometry( 200, 150, 100);
         // using THREE.MeshFaceMaterial() in the constructor below
         //   causes the mesh to use the materials stored in the geometry
-        let cube = new THREE.Mesh( cubeGeometry, cubeMaterials );
+        let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
         cube.position.set(-100, 50, -50);
-        this.scene.add( cube );		
+        this.scene.add( cube );	
+
+
         // create a set of coordinate axes to help orient user
         //    specify length in pixels in each direction
         let axes = new THREE.AxisHelper(100);
