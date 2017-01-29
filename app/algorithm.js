@@ -68,7 +68,9 @@ export default class Algorithm {
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
-        
+
+        console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
+
         return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
     }
 
@@ -127,10 +129,10 @@ export default class Algorithm {
 
         let cost = 0;
         
-        objs.forEach(function(i, i_index) {
-            objs.forEach(function(j, j_index) {
+        objs.forEach(function(i) {
+            objs.forEach(function(j) {
 
-                if(i_index === j_index)
+                if(i.id === j.id)
                     return;
 
                 for(let area of j.accessibilityAreas) {
@@ -139,8 +141,7 @@ export default class Algorithm {
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at accessibility');
 
-                    //TODO: Consider that area is relative to p
-                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, area.a)) / dem));
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, VectorMath.add(area.a, j.p))) / dem));
                 }
 
             });
@@ -157,10 +158,10 @@ export default class Algorithm {
 
         let cost = 0;
 
-        objs.forEach(function(i, i_index) {
-            objs.forEach(function(j, j_index) {
+        objs.forEach(function(i) {
+            objs.forEach(function(j) {
 
-                if(i_index === j_index)
+                if(i.id === j.id)
                     return;
 
                 for(let viewBox of j.viewFrustum) {
@@ -168,7 +169,7 @@ export default class Algorithm {
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at visbility');
 
-                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, viewBox.v)) / dem));
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, VectorMath.add(j.p, viewBox.v))) / dem));
                 }
 
             });
