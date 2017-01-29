@@ -56,9 +56,9 @@ let startState = {
                                 { a: [0, -3], width: 6, height: 8},
                                 { a: [3, 0], width: 8, height: 6},
                              ], // ax, ay, atheta relative to px py, theta
-         viewFrustum: [ { v: [0, 5], width: 18, height: 12 }, // +vd
-                        { v: [0, 7], width: 18, height: 12 },
-                        { v: [0, 9], width: 18, height: 12 },
+         viewFrustum: [ { v: [0, 5], width: 8, height: 2 }, // +vd
+                        { v: [0, 7], width: 10, height: 2 },
+                        { v: [0, 9], width: 12, height: 2 },
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
         },
@@ -70,10 +70,10 @@ let startState = {
          d: 40, // distance to nearest wall
          thetaWall: 0, // angle to nearest wall
          theta: 0,
-         accessibilityAreas: [  { a: [0, 9], width: 18, height: 12 },
-                                { a: [-15, 0], width: 8, height: 6 },
-                                { a: [0, -9], width: 8, height: 6 },
-                                { a: [15, 0], width: 8, height: 6 },
+         accessibilityAreas: [  { a: [0, 6], width: 24, height: 12 },
+                                { a: [-9, 0], width: 18, height: 12 },
+                                { a: [0, -6], width: 24, height: 12 },
+                                { a: [9, 0], width: 18, height: 12 },
                              ], // ax, ay, atheta relative to px py, theta
          viewFrustum: [
                        ], // vx, vy, vtheta relative to px, py, theta

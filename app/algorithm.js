@@ -92,7 +92,8 @@ export default class Algorithm {
                 let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
 
                 for(let area of j.accessibilityAreas) {
-                    let dem = b + area.ad;
+                    let ad = VectorMath.magnitude(VectorMath.subtract(area.a, [area.a[0] - area.width / 2, area.a[1] - area.height / 2]));
+                    let dem = b + ad; //i.b + area.ad
 
                     if (dem == 0)
                         throw new Error('Error: Division by 0 at accessibility');
