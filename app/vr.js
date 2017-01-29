@@ -2,16 +2,18 @@
  * Created by James on 2017-01-29.
  */
 
+import * as $ from 'jquery';
 import * as THREE from 'three';
 
 export default class VRView {
     constructor(MainView) {
-        $('#btnStartVR').on('click', () => this.startVR()); 
+        this.init = this.init.bind(this);
+        this.animate = this.animate.bind(this);
+        $('#btnStartVR').on('click', () => this.startVR());
     }
 
-    startVR(){
+    startVR() {
         this.init();
-        this.animate = this.animate.bind(this);
         this.animate();
     }
 
@@ -36,7 +38,6 @@ export default class VRView {
     }
 
     animate() {
-
         window.requestAnimationFrame( this.animate );
 
         this.mesh.rotation.x += 0.01;

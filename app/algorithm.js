@@ -38,7 +38,7 @@ export default class Algorithm {
         let bestState = this.clone(curState);
         let bestEnergy = curEnergy;
 
-        let i = 0;
+        let i = 0, accepted = 0;
         setTimeout(this.send.bind(this), 1000);
 
         while(this.temp > 1){
@@ -48,6 +48,11 @@ export default class Algorithm {
             if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
                 curState = this.clone(newState);
                 curEnergy = newEnergy;
+
+                if(accepted++ % 500 === 0){
+                    console.log('Accepted: ' + accepted/i * 100 + '%');
+                    this.animationStates.push(curState);
+                }
             }
             
             if (curEnergy < bestEnergy){
@@ -56,9 +61,7 @@ export default class Algorithm {
             }
 
             this.temp *= this.coolRate;
-            if(i++ % 1000 === 0){
-                this.animationStates.push(this.clone(newState));
-            }
+            i++;
         }
         
         console.log('Best room has a cost of', bestEnergy, 'iterations', i);
@@ -125,8 +128,8 @@ export default class Algorithm {
             if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
                 fur.p[1] = newy;
 
-            state.objects[i_index] = updatePosition(fur);
-        });
+            state.objects[i_index] = updatePosition(this.clone(state.objects[i_index]));
+        }.bind(this));
 
         return this.clone(state);
     }
@@ -199,7 +202,8 @@ export default class Algorithm {
             tCost += Math.abs(i.thetaWall - prevObj[i_index].thetaWall);
         });
 
-        return [dCost, tCost];
+        //return [dCost, tCost];
+        return [0, 0];
     }
 
     create_gaussian_func(mean, stdev) {

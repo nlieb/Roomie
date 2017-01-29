@@ -19,5 +19,7 @@ export default function updatePosition(fur){
         viewFrustum: fur.viewFrustum,
     };
 
+    //fur.d = Math.min(fur.p[0], fur.p[1], fur.room.size.width - fur.p[0], fur.room.size.height - fur.p[1]);
+
     return new_furniture;
 }
