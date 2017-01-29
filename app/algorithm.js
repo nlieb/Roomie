@@ -81,7 +81,7 @@ export default class Algorithm {
         
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
          
-    console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
+        console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
         return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
     }
 
@@ -142,23 +142,19 @@ export default class Algorithm {
 
         let cost = 0;
         
-        objs.forEach(function(i, i_index) {
-            objs.forEach(function(j, j_index) {
+        objs.forEach(function(i) {
+            objs.forEach(function(j) {
 
-                if(i_index === j_index)
+                if(i.id === j.id)
                     return;
 
-                let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
-
                 for(let area of j.accessibilityAreas) {
-                    let ad = VectorMath.magnitude(VectorMath.subtract(area.a, [area.a[0] - area.width / 2, area.a[1] - area.height / 2]));
-                    let dem = b + ad; //TODO: i.b + area.ad
+                    let dem = i.b + area.ad;
 
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at accessibility');
 
-                    //TODO: Consider that area is relative to p
-                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, area.a)) / dem));
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, VectorMath.add(j.p, area.a))) / dem));
                 }
 
             });
@@ -175,21 +171,18 @@ export default class Algorithm {
 
         let cost = 0;
 
-        objs.forEach(function(i, i_index) {
-            objs.forEach(function(j, j_index) {
+        objs.forEach(function(i) {
+            objs.forEach(function(j) {
 
-                if(i_index === j_index)
+                if(i.id === j.id)
                     return;
 
-                let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
-
                 for(let viewBox of j.viewFrustum) {
-                    let vd = VectorMath.magnitude(VectorMath.subtract(viewBox.v, [viewBox.v[0] - viewBox.width / 2, viewBox.v[1] - viewBox.height / 2]));
-                    let dem = b + vd;
+                    let dem = i.b + viewBox.vd;
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at visbility');
 
-                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, viewBox.v)) / dem));
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, VectorMath.add(j.p, viewBox.v))) / dem));
                 }
 
             });

@@ -4,7 +4,7 @@
 
 import * as GUID from 'guid';
 import VectorMath from './vectormath';
-import { DistanceOp } from 'jsts';
+import * as jsts from 'jsts';
 
 class Furniture {
     //TODO: if centre = null => use random pos
@@ -28,10 +28,18 @@ class Furniture {
         this.viewFrustum = [];
 
         this.image = image;
+
+        //this.georoom = jsts.io.bbox([0, 0, this.width, this.height]);
     }
 
     updatePosition() {
-        
+        let geop = jsts.io.Point(this.p);
+        let closep = geop.nearestPoints(this.georoom);
+        console.log(closep[0] + ' ' + closep[1]);
+    }
+
+    roomRect() {
+        return [[0, 0], [0, this.room.size.height], [this.room.size.width, this.room.size.height], [this.room.size.width, 0]];
     }
 
     /**
