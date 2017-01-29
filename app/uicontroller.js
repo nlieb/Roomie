@@ -58,6 +58,10 @@ export default class UIController {
         sliderHeight.noUiSlider.on('update', function( values, handle ) {
             sliderHeightDisplayValue.innerHTML = 'Room Length: ' + parseInt(values[handle]);
         });
+
+        for(let obj of this.app.state.objects) {
+            this.createRow(obj);
+        }
     }
 
     addObject(state) {
@@ -79,6 +83,9 @@ export default class UIController {
                 obj = new Table([x, y], width, height, state.room);
                 break;
             case 'lamp':
+                obj = new GenericObject(type, [x, y], width, height, 'lamp.png', state.room);
+                break;
+            case 'couch':
                 obj = new GenericObject(type, [x, y], width, height, 'lamp.png', state.room);
                 break;
             default:
