@@ -31,8 +31,8 @@ export default class Algorithm {
            given with the provided room objects
         **/
         let curState = this.generateState(this.clone(this.state));
-        let newState = this.generateState(this.clone(this.state));
-        let curEnergy = this.evalFurniture(newState.objects, curState.objects);
+        let curEnergy = this.evalFurniture(curState);
+
         this.animationStates.push(this.clone(curState));
         
         let bestState = this.clone(curState);
@@ -42,8 +42,8 @@ export default class Algorithm {
         setTimeout(this.send.bind(this), 1000);
 
         while(this.temp > 1){
-            newState = this.generateState(this.clone(curState));
-            let newEnergy = this.evalFurniture(newState.objects, curState.objects);
+            let newState = this.generateState(this.clone(curState));
+            let newEnergy = this.evalFurniture(newState);
 
             if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
                 curState = this.clone(newState);
@@ -65,7 +65,7 @@ export default class Algorithm {
         }
         
         console.log('Best room has a cost of', bestEnergy, 'iterations', i);
-        console.log('Evaluation', this.evalFurniture(bestState.objects, bestState.objects));
+        console.log('Evaluation', this.evalFurniture(bestState));
         this.animationStates.push(this.clone(bestState));
     }
 
@@ -77,14 +77,15 @@ export default class Algorithm {
         setTimeout(this.send.bind(this), 1000);
     }
     
-    evalFurniture(objs, prevObjs){
+    evalFurniture(state) {
+        let objs = state.objects;
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
         
-        let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
+        let [prevDCost, prevTCost] = this.priorCost(state);
          
         console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
-        return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
+        return 0.1*accCost + 0.01*visCost + 0.05*prevDCost + 1*prevTCost;
     }
 
     acceptProbability(energy, newEnergy){
@@ -199,19 +200,22 @@ export default class Algorithm {
 
     //TODO: Path cost?
 
-    priorCost(curObj, prevObj) {
+    priorCost(state) {
         let dCost = 0, tCost = 0;
 
-        curObj.forEach(function(i, i_index) {
-            dCost += Math.abs(i.d - prevObj[i_index].d);
-            tCost += Math.abs(i.thetaWall - prevObj[i_index].thetaWall);
-        });
+        for (let i of state.objects) {
 
-        //return [dCost, tCost];
-        return [0, 0];
+            if(state.positiveExamples[i.type] == null)
+                continue;
+
+            dCost += Math.abs(i.d - state.positiveExamples[i.type][0]);
+            tCost += Math.abs(i.thetaWall - state.positiveExamples[i.type][1]);
+        }
+
+        return [dCost, tCost];
     }
 
-    pairwiseCost(curObj, prevObj) {
+    pairwiseCost(curObj) {
         let dCost = 0, tCost = 0;
 
         curObj.forEach(function(i, i_index) {
