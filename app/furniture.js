@@ -27,7 +27,7 @@ class Furniture {
         this.theta = 0;
         this.thetaWall = 0;
 
-        this.accessibilityAreas = [];
+        this.accessibilityAreas = [{as: [0,0], a:[0,0], width: this.width, height: this.height, ad: this.b}];
         this.viewFrustum = [];
 
         this.image = image;
@@ -119,11 +119,6 @@ class Couch extends Furniture {
 class GenericObject extends Furniture {
     constructor(type, centre, width, height, image, room, pairwiseCost=false) {
         super(type, centre, width, height, image, room, pairwiseCost);
-
-        this.addAccessibilityArea('x', 3);
-        this.addAccessibilityArea('x', -3);
-        this.addAccessibilityArea('y', 3);
-        this.addAccessibilityArea('y', -3);
     }
 }
 
@@ -159,7 +154,7 @@ function updatePosition(state, i){
         b: getDiagonal(fur.width, fur.height),
         d: d,
         theta: fur.theta,
-        thetaWall: wt - fur.theta,
+        thetaWall: fur.theta - wt,
         accessibilityAreas: fur.accessibilityAreas,
         viewFrustum: fur.viewFrustum,
         pairwiseCost: fur.pairwiseCost,
@@ -227,6 +222,7 @@ function getAngle(fur1, fur2){
 export {
     Chair,
     Table,
+    Couch,
     GenericObject,
     getDiagonal,
     getCornerDistance,

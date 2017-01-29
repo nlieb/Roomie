@@ -3,7 +3,7 @@
  */
 
 import * as $ from 'jquery';
-import { Chair, Table, GenericObject } from './furniture';
+import { Chair, Table, Couch, GenericObject } from './furniture';
 
 export default class UIController {
     constructor(app) {
@@ -86,7 +86,7 @@ export default class UIController {
                 obj = new GenericObject(type, [x, y], width, height, 'lamp.png', state.room);
                 break;
             case 'couch':
-                obj = new GenericObject(type, [x, y], width, height, 'couch.png', state.room);
+                obj = new Couch([x, y], width, height, state.room);
                 break;
             default:
                 return;

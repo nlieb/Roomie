@@ -15,7 +15,7 @@ import RoomView from './room';
 import work from './worker';
 import Options from './options';
 
-import { Chair, Table, GenericObject } from './furniture';
+import { Chair, Table, GenericObject, Couch } from './furniture';
 import UIController from './uicontroller';
 import VRView from './vr';
 
@@ -23,13 +23,17 @@ let startState = {
     positiveExamples: {
         'chair': [18, 0],
         'table': [50, Math.PI / 2],
-        'pairs': {'table': 'chair'}
+        'couch': [0, 0],
+        'pairs': {'table': 'chair', 'lamp': 'couch'}
     },
     objects: [
-        new Chair([20, 25], 16, 16, {size: { width:100, height:100 }}),
-        new Chair([20, 25], 16, 16, {size: { width:100, height:100 }}),
-        new Chair([20, 25], 16, 16, {size: { width:100, height:100 }}),
-        new Table([50, 40], 48, 24, {size: { width:100, height:100 }}),
+        new Chair([20, 25], 12, 12, {size: { width:100, height:100 }}),
+        new Chair([20, 25], 12, 12, {size: { width:100, height:100 }}),
+        new Chair([20, 25], 12, 12, {size: { width:100, height:100 }}),
+        new Table([50, 40], 36, 18, {size: { width:100, height:100 }}),
+        new Couch([50, 80], 36, 12, {size: { width:100, height:100 }}),
+        new GenericObject('lamp', [80, 80], 5, 8, 'lamp.png', {size: { width:100, height:100 }}),
+        new GenericObject('lamp', [10, 80], 5, 8, 'lamp.png', {size: { width:100, height:100 }}),
     ],
     room: {
         size: { width:100, height:100 },
