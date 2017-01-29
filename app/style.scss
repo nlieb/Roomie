@@ -4,8 +4,8 @@ body {
 
 svg {
   border: 1px solid #ddd;
-  margin: 80px auto 0 auto;
   display: block;
+  float:right;
 }
 
 #sliders {
@@ -54,6 +54,7 @@ nav.navbar.navbar-danger {
 
 #objectList {
   width: 33%;
+  float:left;
 }
 
 body svg text {
