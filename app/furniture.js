@@ -113,5 +113,6 @@ function getDiagonal(centre, width, height) {
 export {
     Chair,
     Table,
-    GenericObject
+    GenericObject,
+    getDiagonal,
 };
