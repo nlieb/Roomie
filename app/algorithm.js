@@ -133,8 +133,8 @@ export default class Algorithm {
 
                 for(let area of j.accessibilityAreas) {
                     let ad = VectorMath.magnitude(VectorMath.subtract(area.a, [area.a[0] - area.width / 2, area.a[1] - area.height / 2]));
-                    let dem = b + ad;
-                    
+                    let dem = b + ad; //TODO: i.b + area.ad
+
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at accessibility');
 
@@ -162,9 +162,11 @@ export default class Algorithm {
                     if(i_index === j_index)
                         return;
 
-                    for(let viewBox of j.viewFrustum) {
-                        let dem = i.b + viewBox.vd;
+                    let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
 
+                    for(let viewBox of j.viewFrustum) {
+                        let vd = VectorMath.magnitude(VectorMath.subtract(viewBox.v, [viewBox.v[0] - viewBox.width / 2, viewBox.v[1] - viewBox.height / 2]));
+                        let dem = b + vd;
                         if (dem == 0 || isNaN(dem))
                             throw new Error('Error: Division by 0 at visbility');
 
