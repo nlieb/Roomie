@@ -35,14 +35,14 @@ export default class VRView {
         // var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
         let SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;	
         // camera attributes
-        let VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+        let VIEW_ANGLE = 65, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
         // set up camera
         this.camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
         // add the camera to the scene
         this.scene.add(this.camera);
         // the camera defaults to position (0,0,0)
         // 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
-        this.camera.position.set(0,300,600);
+        this.camera.position.set(0,800,1000);
         this.camera.lookAt(this.scene.position);	
         
         //////////////
@@ -121,8 +121,12 @@ export default class VRView {
                     boxHeight = 85;
                     itemMaterial = new THREE.MeshLambertMaterial( {color: 0x37474F} );
                     break;
+                case 'plant':
+                    boxHeight = 40;
+                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0x1B5E20} );
+                    break;
                 default:
-                    return;
+                    break;
             }
             let cubeGeometry = new THREE.CubeGeometry( (obj.width * 10), boxHeight, (obj.height*10));
             let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
