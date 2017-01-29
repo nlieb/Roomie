@@ -90,11 +90,10 @@ export default class Algorithm {
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
-        let cost = 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
 
-        console.log('TEST', cost);
+        console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
 
-        return cost;
+        return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
     }
 
     acceptProbability(energy, newEnergy){
@@ -141,7 +140,7 @@ export default class Algorithm {
 
             state.objects[i_index] = updatePosition(fur);
         });
-        
+
         return this.clone(state);
     }
 
@@ -163,13 +162,10 @@ export default class Algorithm {
                 for(let area of j.accessibilityAreas) {
                     let dem = i.b + area.ad; //TODO: i.b + area.ad
 
-                    console.log(i.b, area.ad);
-
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at accessibility');
 
-                    //TODO: Consider that area is relative to p
-                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, area.a)) / dem));
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, VectorMath.add(area.a, j.p))) / dem));
                 }
 
             });
