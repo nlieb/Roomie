@@ -72,9 +72,9 @@ let startState = {
                                 { a: [0, -3], width: 6, height: 8},
                                 { a: [3, 0], width: 8, height: 6},
                              ], // ax, ay, atheta relative to px py, theta
-         viewFrustum: [ { v: [0, 5], width: 8, height: 2 }, // +vd
-                        { v: [0, 7], width: 10, height: 2 },
-                        { v: [0, 9], width: 12, height: 2 },
+         viewFrustum: [ { v: [0, 5], width: 8, height: 2, vd: 1}, // +vd
+                        { v: [0, 7], width: 10, height: 2, vd: 1 },
+                        { v: [0, 9], width: 12, height: 2, vd: 1},
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
         },
