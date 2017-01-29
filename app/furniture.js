@@ -2,11 +2,13 @@
  * Created by James on 2017-01-28.
  */
 
+import * as GUID from 'guid';
 import VectorMath from './vectormath';
 
 class Furniture {
     //TODO: if centre = null => use random pos
     constructor(type, centre, width, height, image) {
+        this.id = GUID.raw();
         this.type = type;
 
         this.p = centre;
@@ -93,11 +95,23 @@ class Table extends Furniture {
     }
 }
 
+class GenericObject extends Furniture {
+    constructor(type, centre, width, height, image) {
+        super(type, centre, width, height, image);
+
+        this.addAccessibilityArea('x', 3);
+        this.addAccessibilityArea('x', -3);
+        this.addAccessibilityArea('y', 3);
+        this.addAccessibilityArea('y', -3);
+    }
+}
+
 function getDiagonal(centre, width, height) {
     return VectorMath.magnitude(VectorMath.subtract(centre, [centre[0] - width / 2, centre[1] - height / 2]));
 }
 
 export {
     Chair,
-    Table
+    Table,
+    GenericObject
 };
