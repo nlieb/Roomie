@@ -39,7 +39,7 @@ export default class Algorithm {
         let bestEnergy = curEnergy;
 
         let i = 1, accepted = 0;
-        // setTimeout(this.send.bind(this), 1000);
+        setTimeout(this.send.bind(this), 1000);
 
         while(this.temp > 1){
             let newState = this.generateState(this.clone(curState));
@@ -51,7 +51,7 @@ export default class Algorithm {
 
                 if(accepted++ % 500 === 0){
                     console.log('Accepted: ' + accepted/i * 100 + '%');
-                    this.animationStates.push(curState);
+                    this.animationStates.push(this.clone(curState));
                 }
             }
             
@@ -66,16 +66,15 @@ export default class Algorithm {
         
         console.log('Best room has a cost of', bestEnergy, 'iterations', i);
         console.log('Evaluation', this.evalFurniture(bestState));
-        this.callback(this.clone(bestState));
-        // this.animationStates.push(this.clone(bestState));
+        this.animationStates.push(this.clone(bestState));
     }
 
-    send(){
+    send(){        
         if(this.animationStates.length){
-            let state = this.animationStates.pop();
+            let state = this.animationStates.shift();
             this.callback(state);
+            setTimeout(this.send.bind(this), 1000);
         }
-        setTimeout(this.send.bind(this), 1000);
     }
     
     evalFurniture(state){
@@ -84,8 +83,6 @@ export default class Algorithm {
         let visCost = this.visibilityCost(objs);
         
         let [pairDCost, pairTCost] = this.pairwiseCost(state);
-         
-        console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${pairDCost.toString()} ${pairTCost.toString()}`);
         
         return  accCost*100 + pairDCost*10 + pairTCost*100; //accCost*100 + visCost + pairDCost*1 + pairTCost*10; // 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
     }
