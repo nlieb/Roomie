@@ -42,13 +42,14 @@ export default class UIController {
         this.app.updateState(state);
     }
 
-    //TODO: Doesn't work
+    //TODO: Need to delete off struct 
     removeObject(state, child) {
 
         let id = child.parents('tr')[0];
         let dataId = id.id;
         child.parents('tr').remove();
 
+        // This part doesnt work, use dataID to find object to remove
         state.objects.find(o => o.id == id).forEach(function(e, i) {
             this.splice(i, 1);
         }, state.objects);
