@@ -58,6 +58,10 @@ export default class UIController {
         sliderHeight.noUiSlider.on('update', function( values, handle ) {
             sliderHeightDisplayValue.innerHTML = 'Room Length: ' + parseInt(values[handle]);
         });
+
+        for(let obj of this.app.state.objects) {
+            this.createRow(obj);
+        }
     }
 
     addObject(state) {

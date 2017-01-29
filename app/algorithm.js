@@ -33,7 +33,7 @@ export default class Algorithm {
         let curState = this.generateState(this.clone(this.state));
         let curEnergy = this.evalFurniture(curState);
 
-        this.animationStates.push(this.clone(curState));
+        // this.animationStates.push(this.clone(curState));
         
         let bestState = this.clone(curState);
         let bestEnergy = curEnergy;
@@ -51,7 +51,7 @@ export default class Algorithm {
 
                 if(accepted++ % 500 === 0){
                     console.log('Accepted: ' + accepted/i * 100 + '%');
-                    this.animationStates.push(curState);
+                    this.animationStates.push(this.clone(curState));
                 }
             }
             
@@ -69,12 +69,12 @@ export default class Algorithm {
         this.animationStates.push(this.clone(bestState));
     }
 
-    send(){
+    send(){        
         if(this.animationStates.length){
-            let state = this.animationStates.pop();
+            let state = this.animationStates.shift();
             this.callback(state);
+            setTimeout(this.send.bind(this), 1000);
         }
-        setTimeout(this.send.bind(this), 1000);
     }
     
     evalFurniture(state){
@@ -82,11 +82,9 @@ export default class Algorithm {
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
         
-        let [pairDCost, pairTCost] = this.pairwiseCost(objs);
-         
-        console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${pairDCost.toString()} ${pairTCost.toString()}`);
+        let [pairDCost, pairTCost] = this.pairwiseCost(state);
         
-        return  accCost*50 + visCost + pairDCost*10 + pairTCost*100; // 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
+        return  accCost*100 + pairDCost*10 + pairTCost*100; //accCost*100 + visCost + pairDCost*1 + pairTCost*10; // 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
     }
 
     acceptProbability(energy, newEnergy){
@@ -218,23 +216,24 @@ export default class Algorithm {
         return [dCost, tCost];
     }
 
-    pairwiseCost(curObj) {
+    pairwiseCost(state) {
         let dCost = 0, tCost = 0;
+        let curObj = state.objects;
 
         curObj.forEach(function(i, i_index) {
-            if(!i.pairwiseCost){
+            if(state.positiveExamples.pairs[i.type] === undefined){
                 return;
             }
 
             curObj.forEach(function(j, j_index) {
                 if(i_index == j_index)
                     return;
-
-                if(i.pairwiseCost.type == j.type){
+                
+                if(state.positiveExamples.pairs[i.type] == j.type){
                     let dist = getCenterDistance(i, j);
                     let angle = getAngle(i, j);
-                    let hdiff = Math.abs(i.height/2 + j.height/2 - dist);
-                    let wdiff = Math.abs(i.width/2 + j.width/2 - dist);
+                    let hdiff = Math.abs(i.height/2 + j.height/2 - dist + 5);
+                    let wdiff = Math.abs(i.width/2 + j.width/2 - dist + 5);
                     if(wdiff < hdiff){
                         dCost += hdiff;
                         tCost += angle;
