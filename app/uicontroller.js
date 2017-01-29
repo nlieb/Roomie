@@ -24,9 +24,9 @@ export default class UIController {
     }
 
     addObject(state) {
-        let type = $('input[name="TypeInput"]:checked').val();
-        let width = parseInt($('#width').val());
-        let height = parseInt($('#height').val());
+        let type = $('input[name="AddTypeInput"]:checked').val();
+        let width = parseInt($('#AddWidth').val());
+        let height = parseInt($('#AddHeight').val());
 
         let obj;
 
@@ -74,9 +74,6 @@ export default class UIController {
                         <td>${obj.width}</td>
                         <td>${obj.height}</td>
                         <td class="td-actions text-right">
-                            <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
-                                <i class="fa fa-edit"></i>
-                            </button>
                             <button type="button" rel="tooltip" title="Remove" data-id="${obj.id}" class="btn btn-danger removeItem btn-simple btn-xs rbutton">
                                 <i class="fa fa-times"></i>
                             </button>
@@ -86,3 +83,7 @@ export default class UIController {
         $('table tbody').append(markup);
     }
 }
+
+//<button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+//                                <i class="fa fa-edit"></i>
+//                            </button>
