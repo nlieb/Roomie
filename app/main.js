@@ -23,7 +23,7 @@ let startState = {
          p: [20, 25],
          width: 8,
          height: 8,
-         b:  VectorMath.magnitude(VectorMath.subtract(this.p, [this.p[0] - this.width / 2, this.p[1] - this.height / 2])), // half diagonal length of the bounding box
+         b: 1, // half diagonal length of the bounding box
          d: 20, // distance to nearest wall
          thetaWall: 90, // angle to nearest wall
          theta: 0,
@@ -42,7 +42,7 @@ let startState = {
          p: [50, 40],
          width: 24,
          height: 12,
-         b: VectorMath.magnitude(VectorMath.subtract(this.p, [this.p[0] - this.width / 2, this.p[1] - this.height / 2])), // half diagonal length of the bounding box
+         b: 1, // half diagonal length of the bounding box
          d: 40, // distance to nearest wall
          thetaWall: 0, // angle to nearest wall
          theta: 0,

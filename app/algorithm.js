@@ -1,6 +1,6 @@
 'use strict';
 
-import vectormath from './vectormath';
+import VectorMath from './vectormath';
 
 /*
 This class exposes one important function, 'computeRoom'
@@ -27,7 +27,7 @@ export default class Algorithm {
            given with the provided room objects
         **/
         let curRoom = this.generateRoom(this.state.objects);
-        let curEnergy = this.evalRoom(curRoom);
+        let curEnergy = this.evalRoom(curRoom, curRoom);
         let bestRoom = curRoom;
         let bestEnergy = curEnergy;
 
@@ -48,10 +48,10 @@ export default class Algorithm {
 
             this.temp *= this.coolRate;
             if(i++ % 1000 === 0)
-                this.app.updateState(bestRoom);
+                this.app.updateState(this.state);
         }
         console.log('Best room has a cost of', bestEnergy);
-        this.app.updateState(bestRoom);
+        this.app.updateState(this.state);
     }
     
     evalRoom(room, prevRoom){
@@ -89,14 +89,16 @@ export default class Algorithm {
                 if(i_index === j_index)
                     return;
 
+                let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
+
                 for(let area of j.accessibilityAreas) {
-                    let dem = i.b + area.ad;
+                    let dem = b + area.ad;
 
                     if (dem == 0)
                         throw new Error('Error: Division by 0 at accessibility');
 
                     //TODO: Consider that area is relative to p
-                    cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, area.a)) / dem));
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, area.a)) / dem));
                 }
 
             });
@@ -124,7 +126,7 @@ export default class Algorithm {
                         if (dem == 0)
                             throw new Error('Error: Division by 0 at visbility');
 
-                        cost += Math.max(0, 1 - (vectormath.magnitude(vectormath.subtract(i.p, viewBox.v)) / dem));
+                        cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, viewBox.v)) / dem));
                     }
 
                 });
@@ -135,12 +137,12 @@ export default class Algorithm {
 
     //TODO: Path cost?
 
-    priorCost(curState, prevState) {
+    priorCost(curRoom, prevRoom) {
         let dCost = 0, tCost = 0;
 
-        curState.forEach(function(i, i_index) {
-            dCost += Math.abs(i.d - prevState[i_index].d);
-            tCost += Math.abs(i.thetaWall - prevState[i_index].thetaWall);
+        curRoom.forEach(function(i, i_index) {
+            dCost += Math.abs(i.d - prevRoom[i_index].d);
+            tCost += Math.abs(i.thetaWall - prevRoom[i_index].thetaWall);
         });
 
         return [dCost, tCost];
