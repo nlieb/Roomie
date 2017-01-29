@@ -79,9 +79,6 @@ export default class RoomView {
         const enterUpdateAccessibility = this.svg.selectAll('rect.active.accessibility')
             .transition()
             .duration(this.config.transitionDuration)
-            .style('opacity', 0.2)
-            .attr({
-
-            });
+            .style('opacity', 0.2);
     }
 }
