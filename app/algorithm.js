@@ -14,7 +14,6 @@ export default class Algorithm {
         this.temp = options['initalTemp'];
         this.coolRate = 1 - options['coolRate'];
         this.state = state;
-        this.room = state.room;
         this.app = app;
 
         return this.coolRate;
@@ -25,9 +24,9 @@ export default class Algorithm {
            Main function of the algorithm, tries to find the best room
            given with the provided room objects
         **/
-        let curRoom = this.generateRoom(this.state.objects);
-        let curEnergy = this.evalRoom(curRoom, curRoom);
-        let bestRoom = curRoom;
+        let curState = this.generateState(this.state);
+        let curEnergy = this.evalFurniture(curState.objects, curState.objects);
+        let bestState = curState;
         let bestEnergy = curEnergy;
 
         let i = 0;
@@ -36,16 +35,16 @@ export default class Algorithm {
         this.app.updateState(this.state);
         
         while(this.temp > 1){
-            let newRoom = this.generateRoom(curRoom);
-            let newEnergy = this.evalRoom(newRoom, curRoom);
+            let newState = this.generateState(curState);
+            let newEnergy = this.evalFurniture(newState.objects, curState.objects);
 
             if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
-                curRoom = newRoom;
+                curState = newState;
                 curEnergy = newEnergy;
             }
             
             if (curEnergy < bestEnergy){
-                bestRoom = curRoom;
+                bestState = curState;
                 bestEnergy = curEnergy;
             }
 
@@ -58,10 +57,10 @@ export default class Algorithm {
         this.app.updateState(this.state);
     }
     
-    evalRoom(room, prevRoom){
-        let accCost = this.accessibilityCost(room);
-        let visCost = this.visibilityCost(room);
-        let [prevDCost, prevTCost] = this.priorCost(room, prevRoom);
+    evalFurniture(objs, prevObjs){
+        let accCost = this.accessibilityCost(objs);
+        let visCost = this.visibilityCost(objs);
+        let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
         
         return 0.1*accCost + 0.01*visCost;
     }
@@ -74,48 +73,46 @@ export default class Algorithm {
         return Math.exp((energy - newEnergy) / this.temp);
     }
 
-    swapFurniture(room, id1, id2){
-        let p1 = room[id1].p;
+    swapFurniture(state, id1, id2){
+        let p1 = state.objects[id1].p;
 
-        room[id1].p = room[id2].p;
-        room[id2].p = p1;
+        state.objects[id1].p = state.objects[id2].p;
+        state.objects[id2].p = p1;
         
-        return room;
+        return state;
     }
     
-    generateRoom(room){
+    generateState(state){
         /**
-           Generates a room based off the current room,
-           should maybe decrease variation over time?
+           Generates a new state based off the current room
         **/
         
         let numSwaps = 1;
         for(let i=0; i<numSwaps; ++i){
-            let id1 = Math.floor(Math.random() * room.length);
-            let id2 = Math.floor(Math.random() * room.length);
-            room = this.swapFurniture(room, id1, id2);
+            let id1 = Math.floor(Math.random() * state.objects.length);
+            let id2 = Math.floor(Math.random() * state.objects.length);
+            state = this.swapFurniture(state, id1, id2);
         }
 
         let tempRatio = this.temp/this.initalTemp;
         let g = this.create_gaussian_func(0, tempRatio);
-        let r = this.room;
         
-        room.forEach(function(fur, i_index) {
+        state.objects.forEach(function(fur, i_index) {
             let width = fur.width / 2;
             let height = fur.height / 2;
             let newx = fur.p[0] + g() * width;
             let newy = fur.p[1] + g() * height;
-            if (0 <= newx && newx <= r.width) // check if valid x coord
-                fur.p[0] = newx;
-            if (0 <= newy && newy <= r.height) // check if valid y coord
-                fur.p[1] = newy;
+            if (0 <= newx && newx <= state.room.width) // check if valid x coord
+                state.objects[i_index].p[0] = newx;
+            if (0 <= newy && newy <= state.room.height) // check if valid y coord
+                state.objects[i_index].p[1] = newy;
         });
         
-        return room;
+        return state;
     }
 
     //TODO: Combine accessibiltyCost and visibilityCost
-    accessibilityCost(room) {
+    accessibilityCost(objs) {
         /**
          * i is the parent object
          * j is the child object
@@ -123,8 +120,8 @@ export default class Algorithm {
 
         let cost = 0;
         
-        room.forEach(function(i, i_index) {
-            room.forEach(function(j, j_index) {
+        objs.forEach(function(i, i_index) {
+            objs.forEach(function(j, j_index) {
 
                 if(i_index === j_index)
                     return;
@@ -148,7 +145,7 @@ export default class Algorithm {
         return cost;
     }
 
-    visibilityCost(room) {
+    visibilityCost(objs) {
             /**
              * i is the parent object
              * j is the child object
@@ -156,8 +153,8 @@ export default class Algorithm {
 
             let cost = 0;
 
-            room.forEach(function(i, i_index) {
-                room.forEach(function(j, j_index) {
+            objs.forEach(function(i, i_index) {
+                objs.forEach(function(j, j_index) {
 
                     if(i_index === j_index)
                         return;
@@ -179,12 +176,12 @@ export default class Algorithm {
 
     //TODO: Path cost?
 
-    priorCost(curRoom, prevRoom) {
+    priorCost(curObj, prevObj) {
         let dCost = 0, tCost = 0;
 
-        curRoom.forEach(function(i, i_index) {
-            dCost += Math.abs(i.d - prevRoom[i_index].d);
-            tCost += Math.abs(i.thetaWall - prevRoom[i_index].thetaWall);
+        curObj.forEach(function(i, i_index) {
+            dCost += Math.abs(i.d - prevObj[i_index].d);
+            tCost += Math.abs(i.thetaWall - prevObj[i_index].thetaWall);
         });
 
         return [dCost, tCost];
