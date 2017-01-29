@@ -129,7 +129,7 @@ export default class Algorithm {
             if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
                 fur.p[1] = newy;
 
-            state.objects[i_index] = updatePosition(this.clone(state.objects[i_index]));
+            state.objects[i_index] = updatePosition(state, i_index);
         }.bind(this));
 
         return this.clone(state);
