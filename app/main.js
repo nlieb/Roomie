@@ -49,16 +49,16 @@ let startState = {
          height: 8,
          b: 1, // half diagonal length of the bounding box
          d: 20, // distance to nearest wall
-         thetaWall: 90, // angle to nearest wall
+         thetaWall: Math.PI / 2, // angle to nearest wall
          theta: 0,
-         accessibilityAreas: [  { a: [0, 5], ad: 1},
-                                { a: [-5, 0], ad: 1},
-                                { a: [0, -5], ad: 1},
-                                { a: [5, 0], ad: 1},
+         accessibilityAreas: [  { a: [0, 3], width: 8, height: 6 }, // + ad
+                                { a: [-3, 0], width: 6, height: 8},
+                                { a: [0, -3], width: 6, height: 8},
+                                { a: [3, 0], width: 8, height: 6},
                              ], // ax, ay, atheta relative to px py, theta
-         viewFrustum: [ { v: [0, 5], vd: 1 },
-                        { v: [0, 7], vd: 1 },
-                        { v: [0, 9], vd: 1 },
+         viewFrustum: [ { v: [0, 5], width: 18, height: 12 }, // +vd
+                        { v: [0, 7], width: 18, height: 12 },
+                        { v: [0, 9], width: 18, height: 12 },
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
         },
@@ -70,10 +70,10 @@ let startState = {
          d: 40, // distance to nearest wall
          thetaWall: 0, // angle to nearest wall
          theta: 0,
-         accessibilityAreas: [  { a: [0, 9], ad: 3},
-                                { a: [-15, 0], ad: 3},
-                                { a: [0, -9], ad: 3},
-                                { a: [15, 0], ad: 3},
+         accessibilityAreas: [  { a: [0, 9], width: 18, height: 12 },
+                                { a: [-15, 0], width: 8, height: 6 },
+                                { a: [0, -9], width: 8, height: 6 },
+                                { a: [15, 0], width: 8, height: 6 },
                              ], // ax, ay, atheta relative to px py, theta
          viewFrustum: [
                        ], // vx, vy, vtheta relative to px, py, theta
