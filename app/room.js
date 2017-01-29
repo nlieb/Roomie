@@ -3,41 +3,50 @@ import * as d3 from 'd3';
 
 export default class RoomView {
     constructor(MainView) {
-        this.svg = d3.select('#content').append('svg')
-            .classed('room-svg', true)
-            .attr('width', 500)
-            .attr('height', 500)
-            .style('overflow', 'visible');
 
-        this.xAxis = this.svg.append('g').classed('x-axis', true);
-        this.yAxis = this.svg.append('g').classed('y-axis', true);
 
         this.config = {
-            transitionDuration: 200
+            transitionDuration: 200,
+            size: 500,
+            axisColor: '#ccc',
         };
+        this.svg = d3.select('#content').append('svg')
+            .classed('room-svg', true)
+            .attr('width', this.config.size)
+            .attr('height', this.config.size)
+            .style('overflow', 'visible');
+        this.xAxis = this.svg.append('g').classed('x-axis', true);
+        this.yAxis = this.svg.append('g').classed('y-axis', true);
     }
 
     draw(state) {
-        console.log('draw state', state.objects[0].p[0]);
-        this.scale = d3.scale.linear()
-            .domain([0, state.room.size.width])
-            .range([0, state.room.size.width]);
+        const self = this;
+        console.log('draw state', state.room);
+        //this.svg.attr('viewBox', '0 0 '+ state.room.size.height + ' ' + state.room.size.width);
 
+        this.scale = d3.scale.linear()
+            .domain([0, 100])
+            .range([0, this.config.size]);
+
+        //const xScale = d3.scale.linear().domain([0, 100]).range([0, state.room.size.width]);
         const xAxis = d3.svg.axis()
-            .tickSize([-3, 3])
-            .ticks(10)
             .scale(this.scale)
+            .innerTickSize(-self.config.size)
             .orient('top');
 
         const yAxis = d3.svg.axis()
-            .tickSize([3, 3])
-            .ticks(10)
             .scale(this.scale)
+            .innerTickSize(-self.config.size)
             .orient('left');
         this.xAxis.call(xAxis);
         this.yAxis.call(yAxis);
 
-        this.svg.attr('viewBox', '0 0 '+ state.room.size.height + ' ' + state.room.size.width);
+        this.svg.selectAll('path')
+            .style({fill: 'none', stroke: self.config.axisColor});
+        this.svg.selectAll('line')
+            .style({stroke: self.config.axisColor, 'stroke-width': 0.5});
+
+
 
         const accessibilityAreas = Array.prototype.concat(
             ...state.objects.map(o => o.accessibilityAreas.map(a => ({...a, parent: o}))));
@@ -51,10 +60,10 @@ export default class RoomView {
             .attr('fill', '#000')
             .attr('preserveAspectRatio', 'none')
             .attr( {
-                width: d => d.width,
-                height: d => d.height,
-                x: d => d.p[0] - d.width/2,
-                y: d => d.p[1] - d.height/2,
+                width: d => self.scale(d.width),
+                height: d => self.scale(d.height),
+                x: d => self.scale(d.p[0] - d.width/2),
+                y: d => self.scale(d.p[1] - d.height/2),
             })
             .attr('xlink:href', d => 'public/img/' + d.image)
             .style('opacity', 0);
@@ -71,10 +80,10 @@ export default class RoomView {
             .transition()
             .duration(this.config.transitionDuration)
             .attr( {
-                width: d => d.width,
-                height: d => d.height,
-                x: d => d.p[0] - d.width/2,
-                y: d => d.p[1] - d.height/2,
+                width: d => self.scale(d.width),
+                height: d => self.scale(d.height),
+                x: d => self.scale(d.p[0] - d.width/2),
+                y: d => self.scale(d.p[1] - d.height/2),
             })
             .style('opacity', 1);
 
@@ -82,6 +91,7 @@ export default class RoomView {
     }
 
     updateAccessibility(state, data) {
+        const self = this;
         const selAccessibility = this.svg.selectAll('rect.accessibility')
             .data(data, (d, i) => d.parent.id + '.' + i);
 
@@ -89,10 +99,10 @@ export default class RoomView {
             .classed('accessibility active', true)
             .attr('fill', 'green')
             .attr( {
-                width: d => d.width,
-                height: d => d.height,
-                x: d => d.parent.p[0] + d.a[0] - d.width/2,
-                y: d => d.parent.p[1] + d.a[1] - d.height/2,
+                width: d => self.scale(d.width),
+                height: d => self.scale(d.height),
+                x: d => self.scale(d.parent.p[0] + d.a[0] - d.width/2),
+                y: d => self.scale(d.parent.p[1] + d.a[1] - d.height/2),
             })
             .style('opacity', 0);
 
@@ -107,10 +117,10 @@ export default class RoomView {
             .transition()
             .duration(this.config.transitionDuration)
             .attr( {
-                width: d => d.width,
-                height: d => d.height,
-                x: d => d.parent.p[0] + d.a[0] - d.width/2,
-                y: d => d.parent.p[1] + d.a[1] - d.height/2,
+                width: d => self.scale(d.width),
+                height: d => self.scale(d.height),
+                x: d => self.scale(d.parent.p[0] + d.a[0] - d.width/2),
+                y: d => self.scale(d.parent.p[1] + d.a[1] - d.height/2),
             })
             .style('opacity', 0.2);
     }
