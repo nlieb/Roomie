@@ -109,7 +109,6 @@ class Table extends Furniture {
         this.addAccessibilityArea('x', -3);
         this.addAccessibilityArea('y', 3);
         this.addAccessibilityArea('y', -3);
-
     }
 }
 

@@ -17,7 +17,7 @@ import Options from './options';
 
 import { Chair, Table, GenericObject } from './furniture';
 import UIController from './uicontroller';
-import VectorMath from './vectormath';
+import VRView from './vr';
 
 let startState = {
     objects: [
@@ -38,6 +38,7 @@ class App {
     constructor() {
         this.views = {
             roomView: new RoomView(this),
+            vrView: new VRView(this),
         };
         const uiController = new UIController(this);
         const options =  Options.options;
