@@ -88,8 +88,8 @@ export default class VRView {
         let light = new THREE.PointLight(0xffffff);
         light.position.set(0,250,0);
         this.scene.add(light);
-        let ambientLight = new THREE.AmbientLight(0x111111);
-        // scene.add(ambientLight);
+        let ambientLight = new THREE.AmbientLight(0xffffff);
+        this.scene.add(ambientLight);
         
         //////////////
         // GEOMETRY //
