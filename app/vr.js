@@ -95,22 +95,26 @@ export default class VRView {
         //////////////
         // GEOMETRY //
         //////////////
-
+        let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
         //Nathan please loop through stuff in the state here.
         for(let obj of this.app.state.objects) {
-            console.log('VR OBJECT', obj);
+            //console.log('VR OBJECT', obj);
+            let cubeGeometry = new THREE.CubeGeometry( (obj.width * 10), 150, (obj.height*10));
+            let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
+            cube.position.set((obj.p[0]*10)-500, 50, (obj.p[1]*10)-500);
+            this.scene.add( cube );
         }
             
         
-        let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
+        //let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
         // Cube parameters: width (x), height (y), depth (z), 
         //        (optional) segments along x, segments along y, segments along z
-        let cubeGeometry = new THREE.CubeGeometry( 200, 150, 100);
+        //let cubeGeometry = new THREE.CubeGeometry( 200, 150, 100);
         // using THREE.MeshFaceMaterial() in the constructor below
         //   causes the mesh to use the materials stored in the geometry
-        let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
-        cube.position.set(-100, 50, -50);
-        this.scene.add( cube );	
+        //let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
+        //cube.position.set(-100, 50, -50);
+        //this.scene.add( cube );	
 
 
         // create a set of coordinate axes to help orient user

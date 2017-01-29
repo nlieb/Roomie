@@ -26,8 +26,10 @@ let startState = {
     },
     objects: [
         new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
+        new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
+        new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
         new Table([50, 40], 24, 12, {size: { width:100, height:100 }},
-                  {type: 'chair', distance: 30}),
+                  {type: 'chair'}),
     ],
     room: {
         size: { width:100, height:100 },
