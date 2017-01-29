@@ -4,18 +4,21 @@
 
 import * as GUID from 'guid';
 import VectorMath from './vectormath';
+import { DistanceOp } from 'jsts';
 
 class Furniture {
     //TODO: if centre = null => use random pos
-    constructor(type, centre, width, height, image) {
+    constructor(type, centre, width, height, image, room) {
         this.id = GUID.raw();
+        this.room = room;
         this.type = type;
 
         this.p = centre;
+
         this.width = width;
         this.height = height;
 
-        this.b = getDiagonal(this.p, this.width, this.height);
+        this.b = getDiagonal(this.width, this.height);
 
         this.d = Math.min(this.p[0], this.p[1]);
         this.theta = 0;
@@ -27,8 +30,8 @@ class Furniture {
         this.image = image;
     }
 
-    wallCalc() {
-
+    updatePosition() {
+        
     }
 
     /**
@@ -49,7 +52,7 @@ class Furniture {
             area.height = this.height / 2 + Math.abs(offset);
         }
 
-        area.ad = getDiagonal(area.a, area.width, area.height);
+        area.ad = getDiagonal(area.width, area.height);
 
         this.accessibilityAreas.push(area);
     }
@@ -63,7 +66,7 @@ class Furniture {
             viewBox.v = [0, offset];
             viewBox.width = this.width + 2 * i;
             viewBox.height = 2;
-            viewBox.vd = getDiagonal(viewBox.v, viewBox.width, viewBox.height);
+            viewBox.vd = getDiagonal(viewBox.width, viewBox.height);
 
             this.viewFrustum.push(viewBox);
             offset += 2;
@@ -72,8 +75,8 @@ class Furniture {
 }
 
 class Chair extends Furniture {
-    constructor(centre, width, height) {
-        super('chair', centre, width, height, 'chair.png');
+    constructor(centre, width, height, room) {
+        super('chair', centre, width, height, 'chair.png', room);
 
         this.addAccessibilityArea('x', 2);
         this.addAccessibilityArea('x', -2);
@@ -85,8 +88,8 @@ class Chair extends Furniture {
 }
 
 class Table extends Furniture {
-    constructor(centre, width, height) {
-        super('table', centre, width, height, 'table.png');
+    constructor(centre, width, height, room) {
+        super('table', centre, width, height, 'table.png', room);
 
         this.addAccessibilityArea('x', 3);
         this.addAccessibilityArea('x', -3);
@@ -96,8 +99,8 @@ class Table extends Furniture {
 }
 
 class GenericObject extends Furniture {
-    constructor(type, centre, width, height, image) {
-        super(type, centre, width, height, image);
+    constructor(type, centre, width, height, image, room) {
+        super(type, centre, width, height, image, room);
 
         this.addAccessibilityArea('x', 3);
         this.addAccessibilityArea('x', -3);
@@ -106,12 +109,14 @@ class GenericObject extends Furniture {
     }
 }
 
-function getDiagonal(centre, width, height) {
-    return VectorMath.magnitude(VectorMath.subtract(centre, [centre[0] - width / 2, centre[1] - height / 2]));
+function getDiagonal(width, height) {
+    return VectorMath.magnitude([width / 2, height / 2]);
+    //console.log(`Width: ${width} Height: ${height} D: ${d}`);
 }
 
 export {
     Chair,
     Table,
-    GenericObject
+    GenericObject,
+    getDiagonal,
 };

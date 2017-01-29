@@ -56,50 +56,11 @@ sliderHeight.noUiSlider.on('update', function( values, handle ) {
     sliderHeightDisplayValue.innerHTML = 'Room Length: ' + parseInt(values[handle]);
 });
 
-
-
-
 let startState = {
-    objects: [new Chair([20, 25], 8, 8), new Table([50, 40], 24, 12)
-        /*{
-        type: 'chair',
-         p: [20, 25],
-         width: 8,
-         height: 8,
-         b: 1, // half diagonal length of the bounding box
-         d: 20, // distance to nearest wall
-         thetaWall: Math.PI / 2, // angle to nearest wall
-         theta: 0,
-         accessibilityAreas: [  { a: [0, 3], width: 8, height: 6 }, // + ad
-                                { a: [-3, 0], width: 6, height: 8},
-                                { a: [0, -3], width: 6, height: 8},
-                                { a: [3, 0], width: 8, height: 6},
-                             ], // ax, ay, atheta relative to px py, theta
-         viewFrustum: [ { v: [0, 5], width: 8, height: 2, vd: 1}, // +vd
-                        { v: [0, 7], width: 10, height: 2, vd: 1 },
-                        { v: [0, 9], width: 12, height: 2, vd: 1},
-                       ], // vx, vy, vtheta relative to px, py, theta
-         pairs: [], // {id, pairD, pairTheta}
-        },
-        {type: 'table',
-         p: [50, 40],
-         width: 24,
-         height: 12,
-         b: 1, // half diagonal length of the bounding box
-         d: 40, // distance to nearest wall
-         thetaWall: 0, // angle to nearest wall
-         theta: 0,
-         accessibilityAreas: [  { a: [0, 6], width: 24, height: 12 },
-                                { a: [-9, 0], width: 18, height: 12 },
-                                { a: [0, -6], width: 24, height: 12 },
-                                { a: [9, 0], width: 18, height: 12 },
-                             ], // ax, ay, atheta relative to px py, theta
-         viewFrustum: [
-                       ], // vx, vy, vtheta relative to px, py, theta
-         pairs: [], // {id, pairD, pairTheta}
-        }*/
+    objects: [
+        new Chair([20, 25], 8, 8),
+        new Table([50, 40], 24, 12)
     ],
-
     room: {
         size: { width:100, height:100 },
         paths: [{ x:0, y:0, width:20, height:20}],

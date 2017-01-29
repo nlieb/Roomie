@@ -28,8 +28,8 @@ function vector_subtract(v1, v2) {
 
 function vector_magnitude(v) {
     let m = 0;
-    for (let e in v) {
-        m += e ^ 2;
+    for (let e of v) {
+        m += e * e;
     }
 
     return Math.sqrt(m);

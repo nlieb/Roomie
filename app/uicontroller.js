@@ -10,6 +10,7 @@ export default class UIController {
         this.app = app;
 
         $('#btnAddItem').on('click', () => this.addObject(this.app.state));
+
     }
 
     addObject(state) {
@@ -35,14 +36,44 @@ export default class UIController {
         }
 
         state.objects.push(obj);
-
         console.log(state.objects);
+        this.createRow(obj);
 
         this.app.updateState(state);
     }
 
-    removeObject(state, index) {
-        state.objects.splice(index, 1);
+    //TODO: Need to delete off struct 
+    removeObject(state, child) {
+
+        let id = child.parents('tr')[0];
+        let dataId = id.id;
+        child.parents('tr').remove();
+
+        // This part doesnt work, use dataID to find object to remove
+        state.objects.find(o => o.id == id).forEach(function(e, i) {
+            this.splice(i, 1);
+        }, state.objects);
+
         this.app.updateState(state);
+    }
+
+    createRow(obj) {
+
+        let markup = `<tr id="${obj.id}">
+                        <td>${obj.type}</td>
+                        <td>${obj.width}</td>
+                        <td>${obj.height}</td>
+                        <td class="td-actions text-right">
+                            <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" id="btnRemoveItem" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs rbutton">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                      </tr>`;
+
+        $('table tbody').append(markup);
+        $('#btnRemoveItem').on('click', () => this.removeObject(this.app.state, $('#btnRemoveItem')));
     }
 }
