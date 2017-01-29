@@ -46,12 +46,13 @@ class App {
             roomView: new RoomView(this),
             vrView: new VRView(this),
         };
+
+        this.state = startState;
+
         const uiController = new UIController(this);
         const options =  Options.options;
 
-        const initialState = startState;
-
-        this.updateState(initialState);
+        this.updateState(this.state);
         work(this, startState, options);
     }
 
