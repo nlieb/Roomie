@@ -29,6 +29,7 @@ export default class RoomView {
         const enterFurniture = sel.enter().append('image')
             .classed('furniture active', true)
             .attr('fill', '#000')
+            .attr('preserveAspectRatio', 'none')
             .attr( {
                 width: d => d.width,
                 height: d => d.height,
