@@ -112,10 +112,11 @@ export default class VRView {
                     boxHeight = 70;
                     break;
                 case 'lamp':
+                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0xFF8F00} );
                     break;
                 case 'couch':
                     boxHeight = 85;
-                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0x3399ff} );
+                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0x37474F} );
                     break;
                 default:
                     return;
@@ -148,7 +149,7 @@ export default class VRView {
         ///////////
         
         // note: 4x4 checkboard pattern scaled so that each square is 25 by 25 pixels.
-        let floorTexture = new THREE.MeshBasicMaterial( { color: 0xaaaaaa, side: THREE.BackSide } );
+        let floorTexture = new THREE.MeshBasicMaterial( { color: 0xeeeeee, side: THREE.BackSide } );
         //floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
         //floorTexture.repeat.set( 10, 10 );
         // DoubleSide: render texture on both sides of mesh
