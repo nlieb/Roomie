@@ -23,7 +23,7 @@ let startState = {
     positiveExamples: {
         'chair': [18, 0],
         'table': [50, Math.PI / 2],
-        'couch': [0, 0],
+        'couch': [5, 0],
         'pairs': {'table': 'chair', 'lamp': 'couch'}
     },
     objects: [

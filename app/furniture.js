@@ -135,7 +135,7 @@ function updatePosition(state, i){
     let room = state.room;
 
     let wt;
-    let d = Math.min(fur.p[0], fur.p[1], room.width - fur.p[0], room.height - fur.p[1]);
+    let d = Math.min(fur.p[0], fur.p[1], room.width - fur.p[0], room.height - fur.p[1]) || fur.d;
     if(d == fur.p[0])
         wt = Math.PI / 2;
     else if (d == fur.p[1])
