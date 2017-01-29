@@ -106,9 +106,9 @@ export default class VRView {
                     break;
                     
                 case 'table':
-                    //itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff9933} );
-                    itemMaterial = new THREE.TextureLoader();
-                    itemMaterial.load('table.png');
+                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff9933} );
+                    //itemMaterial = new THREE.TextureLoader();
+                    //itemMaterial.load('/public/img/table.png');
                     boxHeight = 70;
                     break;
                 case 'lamp':
@@ -123,6 +123,7 @@ export default class VRView {
             let cubeGeometry = new THREE.CubeGeometry( (obj.width * 10), boxHeight, (obj.height*10));
             let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
             cube.position.set((obj.p[0]*10)-500, boxHeight/2, (obj.p[1]*10)-500);
+            cube.rotateY(obj.theta * (Math.PI / 180));
             this.scene.add( cube );
         }
             
