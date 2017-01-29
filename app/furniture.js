@@ -12,7 +12,11 @@ class Furniture {
         this.width = width;
         this.height = height;
 
-        this.b = this.getDiagonal(this.p, this.width, this.height);
+        this.b = getDiagonal(this.p, this.width, this.height);
+
+        this.d = Math.min(this.p[0], this.p[1]);
+        this.theta = 0;
+        this.thetaWall = 0;
 
         this.accessibilityAreas = [];
         this.viewFrustum = [];
@@ -20,10 +24,6 @@ class Furniture {
 
     wallCalc() {
 
-    }
-
-    static getDiagonal(centre, width, height) {
-        return VectorMath.magnitude(VectorMath.subtract(centre, [centre[0] - width / 2, centre[1] - height / 2]));
     }
 
     /**
@@ -34,13 +34,17 @@ class Furniture {
         let area = {};
 
         if(axis == 'x') {
-            area.a = [this.p[0] + Math.sign(offset) * this.width / 2 + offset, this.p[1]];
-            area.ad = this.getDiagonal(area.a, this.width / 2 + Math.abs(offset), this.height);
+            area.a = [Math.sign(offset) * this.width / 2 + offset, 0];
+            area.width = this.width / 2 + Math.abs(offset);
+            area.height = this.height;
         }
         else { //== 'y'
-            area.a = [this.p[0], this.p[1] + Math.sign(offset) * this.width / 2 + offset];
-            area.ad = this.getDiagonal(area.a, this.width, this.width / 2 + Math.abs(offset));
+            area.a = [0, Math.sign(offset) * this.width / 2 + offset];
+            area.width = this.width;
+            area.height = this.width / 2 + Math.abs(offset);
         }
+
+        area.ad = getDiagonal(area.a, area.width, area.height);
 
         this.accessibilityAreas.push(area);
     }
@@ -51,8 +55,10 @@ class Furniture {
 
         for (let i = 0; i < levels; i++) {
             let viewBox = {};
-            viewBox.v = [this.p[0], this.p[1] + offset];
-            viewBox.vd = this.getDiagonal(viewBox.v, this.width + 2 * i, 2);
+            viewBox.v = [0, offset];
+            viewBox.width = this.width + 2 * i;
+            viewBox.height = 2;
+            viewBox.vd = getDiagonal(viewBox.v, viewBox.width, viewBox.height);
 
             this.viewFrustum.push(viewBox);
             offset += 2;
@@ -72,3 +78,23 @@ class Chair extends Furniture {
         this.addViewFrustum();
     }
 }
+
+class Table extends Furniture {
+    constructor(centre, width, height) {
+        super('table', centre, width, height);
+
+        this.addAccessibilityArea('x', 3);
+        this.addAccessibilityArea('x', -3);
+        this.addAccessibilityArea('y', 3);
+        this.addAccessibilityArea('y', -3);
+    }
+}
+
+function getDiagonal(centre, width, height) {
+    return VectorMath.magnitude(VectorMath.subtract(centre, [centre[0] - width / 2, centre[1] - height / 2]));
+}
+
+export {
+    Chair,
+    Table
+};

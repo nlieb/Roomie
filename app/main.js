@@ -15,6 +15,7 @@ import RoomView from './room';
 import Algorithm from './algorithm';
 import Options from './options';
 
+import { Chair, Table } from './furniture';
 import VectorMath from './vectormath';
 
 let noUiSlider = require('nouislider'); 
@@ -58,8 +59,9 @@ sliderHeight.noUiSlider.on('update', function( values, handle ) {
 
 
 let startState = {
-    objects: [
-        {type: 'chair',
+    objects: [new Chair([20, 25], 8, 8), new Table([50, 40], 24, 12)
+        /*{
+        type: 'chair',
          p: [20, 25],
          width: 8,
          height: 8,
@@ -94,7 +96,7 @@ let startState = {
          viewFrustum: [
                        ], // vx, vy, vtheta relative to px, py, theta
          pairs: [], // {id, pairD, pairTheta}
-        }
+        }*/
     ],
 
     room: {
