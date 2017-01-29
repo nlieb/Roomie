@@ -1,7 +1,7 @@
 'use strict';
 
 import VectorMath from './vectormath';
-import updatePosition from './object';
+import {updatePosition, getCenterDistance} from './furniture';
 
 /*
 This class exposes one important function, 'computeRoom'
@@ -56,13 +56,11 @@ export default class Algorithm {
             }
 
             this.temp *= this.coolRate;
-            if(i++ % 1000 === 0){
-                this.animationStates.push(this.clone(newState));
-            }
         }
         
         console.log('Best room has a cost of', bestEnergy, 'iterations', i);
-        this.callback(bestState);
+        console.log('Evaluation', this.evalFurniture(bestState.objects, bestState.objects));
+        this.animationStates.push(this.clone(bestState));
     }
 
     send(){
@@ -125,7 +123,7 @@ export default class Algorithm {
             if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
                 fur.p[1] = newy;
 
-            state.objects[i_index] = updatePosition(fur);
+            state.objects[i_index] = updatePosition(state, i_index);
         });
 
         return this.clone(state);
@@ -201,6 +199,28 @@ export default class Algorithm {
 
         return [dCost, tCost];
     }
+    
+    pairwiseCost(curObj, prevObj) {
+        let dCost = 0, tCost = 0;
+        
+        curObj.forEach(function(i, i_index) {
+            if(!i.pairwiseCost){
+                return;
+            }
+                        
+            curObj.forEach(function(j, j_index) {
+                if(i_index == j_index)
+                    return;
+
+                if(i.pairwiseCost.type == j.type){
+                    let dist = getCenterDistance(i, j);
+                    dCost += Math.abs(i.pairwiseCost.distance - dist);
+                }
+            });
+        });
+
+        return [dCost, tCost];
+    }
 
     create_gaussian_func(mean, stdev) {
         let y2;
@@ -229,5 +249,3 @@ export default class Algorithm {
         };
     }
 }
-
-//TODO: updatePosition() updates p and theta, calculates d
