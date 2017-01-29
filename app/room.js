@@ -24,7 +24,7 @@ export default class RoomView {
 
         this.updateAccessibility(state, accessibilityAreas);
 
-        const sel = this.svg.selectAll('image.furniture').data(state.objects);
+        const sel = this.svg.selectAll('image.furniture').data(state.objects, d => d.id);
 
         const enterFurniture = sel.enter().append('image')
             .classed('furniture active', true)
@@ -63,7 +63,7 @@ export default class RoomView {
 
     updateAccessibility(state, data) {
         const selAccessibility = this.svg.selectAll('rect.accessibility')
-            .data(data);
+            .data(data, (d, i) => d.parent.id + '.' + i);
 
         const enterAccessibility = selAccessibility.enter().append('rect')
             .classed('accessibility active', true)
