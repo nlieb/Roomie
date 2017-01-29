@@ -17,6 +17,10 @@ export default class RoomView {
             .style('overflow', 'visible');
         this.xAxis = this.svg.append('g').classed('x-axis', true);
         this.yAxis = this.svg.append('g').classed('y-axis', true);
+        this.iter = this.svg.append('text').classed('iter', true)
+            .attr('x', 8)
+            .attr('y', 35)
+            .style('font-size', 30);
     }
 
     draw(state) {
@@ -46,7 +50,7 @@ export default class RoomView {
         this.svg.selectAll('line')
             .style({stroke: self.config.axisColor, 'stroke-width': 0.5});
 
-
+        this.iter.text('Iterations: ' + state.progress);
 
         const accessibilityAreas = Array.prototype.concat(
             ...state.objects.map(o => o.accessibilityAreas.map(a => ({...a, parent: o}))));
