@@ -106,7 +106,8 @@ class GenericObject extends Furniture {
 }
 
 function getDiagonal(centre, width, height) {
-    return VectorMath.magnitude(VectorMath.subtract(centre, [centre[0] - width / 2, centre[1] - height / 2]));
+    return VectorMath.magnitude([width / 2, height / 2]);
+    //console.log(`Width: ${width} Height: ${height} D: ${d}`);
 }
 
 export {
