@@ -32,8 +32,8 @@ export default class RoomView {
             .attr( {
                 width: d => d.width,
                 height: d => d.height,
-                x: d => d.p[0],
-                y: d => d.p[1],
+                x: d => d.p[0] - d.width/2,
+                y: d => d.p[1] - d.height/2,
             })
             .style('opacity', 0);
 
@@ -63,8 +63,8 @@ export default class RoomView {
             .attr( {
                 width: d => d.width,
                 height: d => d.height,
-                x: d => d.parent.p[0] + d.a[0],
-                y: d => d.parent.p[1] + d.a[1],
+                x: d => d.parent.p[0] + d.a[0] - d.width/2,
+                y: d => d.parent.p[1] + d.a[1] - d.height/2,
             })
             .style('opacity', 0);
 
