@@ -15,8 +15,6 @@ class Furniture {
 
         this.p = centre;
 
-        this.distanceOp = new DistanceOp(this.p);
-
         this.width = width;
         this.height = height;
 
@@ -33,7 +31,7 @@ class Furniture {
     }
 
     updatePosition() {
-
+        
     }
 
     /**
