@@ -42,21 +42,10 @@ export default class Algorithm {
         let bestEnergy = curEnergy;
 
         let i = 0;
-<<<<<<< Updated upstream
-
-        // let date = new Date();
-        // let lastTime = date.getTime();
-
         setTimeout(this.send.bind(this), 1000);
-=======
-        // setTimeout(this.send.bind(this), 1000);
 
-        let date = new Date();
-        let lastTime = date.getTime();
->>>>>>> Stashed changes
-        
         while(this.temp > 1){
-            let newState = this.clone(this.generateState(curState));
+            let newState = this.generateState(curState);
             let newEnergy = this.evalFurniture(newState.objects, curState.objects);
 
             if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
@@ -70,26 +59,12 @@ export default class Algorithm {
             }
 
             this.temp *= this.coolRate;
-
-<<<<<<< Updated upstream
-            /*let curTime = date.getTime();
-            if(curTime - lastTime >= 1000){
-                this.callback(this.clone(newState));
-                lastTime = curTime;
-            }*/
-
-            if(++i % 1000 === 0){
-                this.animationStates.push(this.clone(newState));
-=======
-            let curTime = date.getTime();
-            if(curTime - lastTime >= 1000){
-                this.callback(this.clone(newState));
-                lastTime = curTime;
->>>>>>> Stashed changes
+            if(i++ % 1000 === 0){
+		this.animationStates.push(this.clone(newState));
             }
         }
         
-        console.log('Best room has a cost of', bestEnergy, 'iterations', i);
+         console.log('Best room has a cost of', bestEnergy, 'iterations', i);
     }
 
     send(){
@@ -103,18 +78,10 @@ export default class Algorithm {
     evalFurniture(objs, prevObjs){
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
-        
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
-<<<<<<< Updated upstream
-
-        console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
-
+         
+	console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
         return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
-=======
-        let cost = 0.1*accCost + 0.01*visCost;
-        
-        return cost;
->>>>>>> Stashed changes
     }
 
     acceptProbability(energy, newEnergy){
@@ -122,7 +89,7 @@ export default class Algorithm {
             return 1.0;
         }
         // If the new solution is worse, calculate an acceptance probability
-        return  Math.exp((energy - newEnergy) / this.temp);
+        return Math.exp((energy - newEnergy) / this.temp);
     }
 
     swapFurniture(state, id1, id2){
@@ -145,11 +112,7 @@ export default class Algorithm {
             state = this.swapFurniture(state, id1, id2);
         }
 
-<<<<<<< Updated upstream
         let tempRatio = this.temp/this.initalTemp + 0.5;
-=======
-        let tempRatio = this.temp/this.initalTemp * 2;
->>>>>>> Stashed changes
         let g = this.create_gaussian_func(0, tempRatio);
 
 
@@ -159,7 +122,6 @@ export default class Algorithm {
             let newx = fur.p[0] + g() * width * 100;
             let newy = fur.p[1] + g() * height;
             if(0 <= (newx - width) && (newx + width) <= state.room.size.width)
-<<<<<<< Updated upstream
                 fur.p[0] = newx;
             if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
                 fur.p[1] = newy;
@@ -167,13 +129,6 @@ export default class Algorithm {
             state.objects[i_index] = updatePosition(fur);
         });
 
-=======
-                state.objects[i_index].p[0] = newx;
-            if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
-                state.objects[i_index].p[1] = newy;
-        });
-        
->>>>>>> Stashed changes
         return this.clone(state);
     }
 
@@ -192,13 +147,17 @@ export default class Algorithm {
                 if(i_index === j_index)
                     return;
 
+                let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
+
                 for(let area of j.accessibilityAreas) {
-                    let dem = i.b + area.ad; //TODO: i.b + area.ad
+                    let ad = VectorMath.magnitude(VectorMath.subtract(area.a, [area.a[0] - area.width / 2, area.a[1] - area.height / 2]));
+                    let dem = b + ad; //TODO: i.b + area.ad
 
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at accessibility');
 
-                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, VectorMath.add(area.a, j.p))) / dem));
+                    //TODO: Consider that area is relative to p
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, area.a)) / dem));
                 }
 
             });
