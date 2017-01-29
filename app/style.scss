@@ -18,8 +18,10 @@ svg {
 }
 
 #ItemsInList   {
-  padding: 5px 200px 5px 200px;
+  margin: 0 auto;
+  max-width: 1200px;
   display: block;
+  background-color: #fff !important;
 }
 
 .button-james-and-nathan-are-making-my-life-harder{
@@ -55,6 +57,8 @@ nav.navbar.navbar-danger {
 #objectList {
   width: 33%;
   float:left;
+  clear: left;
+  margin-top: 20px;
 }
 
 body svg text {
