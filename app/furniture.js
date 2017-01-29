@@ -20,6 +20,12 @@ class Furniture {
 
         this.accessibilityAreas = [];
         this.viewFrustum = [];
+
+        this.image = null;
+    }
+
+    setImage(img) {
+        this.image = img;
     }
 
     wallCalc() {
@@ -76,6 +82,8 @@ class Chair extends Furniture {
         this.addAccessibilityArea('y', -2);
 
         this.addViewFrustum();
+
+        this.setImage('chair.png');
     }
 }
 
@@ -87,6 +95,8 @@ class Table extends Furniture {
         this.addAccessibilityArea('x', -3);
         this.addAccessibilityArea('y', 3);
         this.addAccessibilityArea('y', -3);
+
+        this.setImage('table.jpg');
     }
 }
 
