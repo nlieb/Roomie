@@ -5,7 +5,7 @@
 import VectorMath from './vectormath';
 
 class Furniture {
-    constructor(type, centre, width, height) {
+    constructor(type, centre, width, height, image) {
         this.type = type;
 
         this.p = centre;
@@ -21,11 +21,7 @@ class Furniture {
         this.accessibilityAreas = [];
         this.viewFrustum = [];
 
-        this.image = null;
-    }
-
-    setImage(img) {
-        this.image = img;
+        this.image = image;
     }
 
     wallCalc() {
@@ -40,16 +36,16 @@ class Furniture {
         let area = {};
 
         if(axis == 'x') {
-            area.a = [Math.sign(offset) * this.width / 2 + offset, 0];
+            area.a = [Math.sign(offset) * (this.width / 2 + Math.abs(offset)) / 2, 0];
             area.width = this.width / 2 + Math.abs(offset);
             area.height = this.height;
         }
         else { //== 'y'
-            area.a = [0, Math.sign(offset) * this.width / 2 + offset];
+            area.a = [0, Math.sign(offset) * (this.height / 2 + Math.abs(offset)) / 2];
             area.width = this.width;
-            area.height = this.width / 2 + Math.abs(offset);
+            area.height = this.height / 2 + Math.abs(offset);
         }
-
+        
         area.ad = getDiagonal(area.a, area.width, area.height);
 
         this.accessibilityAreas.push(area);
@@ -74,7 +70,7 @@ class Furniture {
 
 class Chair extends Furniture {
     constructor(centre, width, height) {
-        super('chair', centre, width, height);
+        super('chair', centre, width, height, 'chair.png');
 
         this.addAccessibilityArea('x', 2);
         this.addAccessibilityArea('x', -2);
@@ -82,21 +78,17 @@ class Chair extends Furniture {
         this.addAccessibilityArea('y', -2);
 
         this.addViewFrustum();
-
-        this.setImage('chair.png');
     }
 }
 
 class Table extends Furniture {
     constructor(centre, width, height) {
-        super('table', centre, width, height);
+        super('table', centre, width, height, 'table.jpg');
 
         this.addAccessibilityArea('x', 3);
         this.addAccessibilityArea('x', -3);
         this.addAccessibilityArea('y', 3);
         this.addAccessibilityArea('y', -3);
-
-        this.setImage('table.png');
     }
 }
 
