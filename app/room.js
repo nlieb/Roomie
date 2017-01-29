@@ -85,6 +85,7 @@ export default class RoomView {
                 x: d => self.scale(d.p[0] - d.width/2),
                 y: d => self.scale(d.p[1] - d.height/2),
             })
+            //.attr('transform', d => 'rotate('+(d.theta\)+')')
             .style('opacity', 1);
 
 
