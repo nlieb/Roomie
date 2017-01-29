@@ -69,12 +69,12 @@ export default class Algorithm {
                 lastTime = curTime;
             }*/
 
-            if(i % 1000000 === 0){
+            if(++i % 1000 === 0){
                 this.animationStates.push(this.clone(newState));
             }
         }
         
-        console.log('Best room has a cost of', bestEnergy);
+        console.log('Best room has a cost of', bestEnergy, 'iterations', i);
     }
 
     send(){
