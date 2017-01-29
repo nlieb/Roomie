@@ -20,6 +20,16 @@ export default class Algorithm {
         return this.coolRate;
     }
 
+    clone(obj) {
+        if (null == obj || 'object' != typeof obj) return obj;
+        let copy = obj.constructor();
+        for (let attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+        }
+        return copy;
+    }
+
+
     computeRoom(){
         /**
            Main function of the algorithm, tries to find the best room
@@ -27,33 +37,44 @@ export default class Algorithm {
         **/
         let curState = this.generateState(this.state);
         let curEnergy = this.evalFurniture(curState.objects, curState.objects);
-        let bestState = curState;
+        let bestState = this.clone(curState);
         let bestEnergy = curEnergy;
 
         let i = 0;
-        setTimeout(this.send.bind(this), 1000);
 
+        // let date = new Date();
+        // let lastTime = date.getTime();
+
+        setTimeout(this.send.bind(this), 1000);
+        
         while(this.temp > 1){
             let newState = this.generateState(curState);
             let newEnergy = this.evalFurniture(newState.objects, curState.objects);
 
             if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
-                curState = newState;
+                curState = this.clone(newState);
                 curEnergy = newEnergy;
             }
             
             if (curEnergy < bestEnergy){
-                bestState = curState;
+                bestState = this.clone(curState);
                 bestEnergy = curEnergy;
             }
 
             this.temp *= this.coolRate;
-            if(i++ % 1000 === 0){
-                this.animationStates.push(JSON.parse(JSON.stringify(newState)));
+
+            /*let curTime = date.getTime();
+            if(curTime - lastTime >= 1000){
+                this.callback(this.clone(newState));
+                lastTime = curTime;
+            }*/
+
+            if(++i % 1000 === 0){
+                this.animationStates.push(this.clone(newState));
             }
         }
         
-        console.log('Best room has a cost of', bestEnergy);
+        console.log('Best room has a cost of', bestEnergy, 'iterations', i);
     }
 
     send(){
@@ -79,7 +100,7 @@ export default class Algorithm {
             return 1.0;
         }
         // If the new solution is worse, calculate an acceptance probability
-        return Math.exp((energy - newEnergy) / this.temp);
+        return  Math.exp((energy - newEnergy) / this.temp);
     }
 
     swapFurniture(state, id1, id2){
@@ -95,7 +116,6 @@ export default class Algorithm {
         /**
            Generates a new state based off the current room
         **/
-        
         let numSwaps = 1;
         for(let i=0; i<numSwaps; ++i){
             let id1 = Math.floor(Math.random() * state.objects.length);
@@ -103,21 +123,22 @@ export default class Algorithm {
             state = this.swapFurniture(state, id1, id2);
         }
 
-        let tempRatio = this.temp/this.initalTemp;
+        let tempRatio = this.temp/this.initalTemp + 0.5;
         let g = this.create_gaussian_func(0, tempRatio);
+
 
         state.objects.forEach(function(fur, i_index) {
             let width = fur.width / 2;
             let height = fur.height / 2;
-            let newx = fur.p[0] + g() * width;
+            let newx = fur.p[0] + g() * width * 100;
             let newy = fur.p[1] + g() * height;
-            if(0 <= newx && (newx + width) <= state.room.size.width)
+            if(0 <= (newx - width) && (newx + width) <= state.room.size.width)
                 state.objects[i_index].p[0] = newx;
-            if(0 <= newy && (newy + height) <= state.room.size.height)
+            if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
                 state.objects[i_index].p[1] = newy;
         });
-        
-        return state;
+
+        return this.clone(state);
     }
 
     //TODO: Combine accessibiltyCost and visibilityCost
