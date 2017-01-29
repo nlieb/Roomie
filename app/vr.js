@@ -42,7 +42,7 @@ export default class VRView {
         this.scene.add(this.camera);
         // the camera defaults to position (0,0,0)
         // 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
-        this.camera.position.set(0,800,1000);
+        this.camera.position.set(0,700,900);
         this.camera.lookAt(this.scene.position);	
         
         //////////////
