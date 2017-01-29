@@ -29,7 +29,7 @@ class Furniture {
 
         this.image = image;
 
-        this.georoom = jsts.io.bbox([0, 0, this.width, this.height]);
+        //this.georoom = jsts.io.bbox([0, 0, this.width, this.height]);
     }
 
     updatePosition() {
