@@ -11,6 +11,7 @@ export default class VRView {
         this.init = this.init.bind(this);
         this.animate = this.animate.bind(this);
         $('#btnStartVR').on('click', () => this.startVR());
+        $('#btnStart').on('click', () => this.app.start());
     }
 
     startVR() {
