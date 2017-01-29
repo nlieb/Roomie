@@ -9,12 +9,12 @@ the optimal room layout.
  */
 
 export default class Algorithm {
-    constructor(app, state, options){
+    constructor(state, options, callback){
         this.initalTemp = options['initalTemp'];
         this.temp = options['initalTemp'];
         this.coolRate = 1 - options['coolRate'];
         this.state = state;
-        this.app = app;
+        this.callback = callback;
 
         return this.coolRate;
     }
@@ -30,10 +30,7 @@ export default class Algorithm {
         let bestEnergy = curEnergy;
 
         let i = 0;
-        console.log('runing');
 
-        this.app.updateState(this.state);
-        
         while(this.temp > 1){
             let newState = this.generateState(curState);
             let newEnergy = this.evalFurniture(newState.objects, curState.objects);
@@ -50,11 +47,10 @@ export default class Algorithm {
 
             this.temp *= this.coolRate;
             if(i++ % 1000 === 0){
-                this.app.updateState(this.state);
+                this.callback(this.state);
             }
         }
         console.log('Best room has a cost of', bestEnergy);
-        this.app.updateState(this.state);
     }
     
     evalFurniture(objs, prevObjs){

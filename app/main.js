@@ -12,7 +12,7 @@ import './lib/js/nouislider.min.js';
 
 import './style.scss';
 import RoomView from './room';
-import Algorithm from './algorithm';
+import work from './worker';
 import Options from './options';
 
 import { Chair, Table } from './furniture';
@@ -114,12 +114,11 @@ class App {
             roomView: new RoomView(this),
         };
         const options =  Options.options;
-        const algo = new Algorithm(this, startState, options);
 
         const initialState = startState;
 
         this.updateState(initialState);
-        algo.computeRoom();
+        work(this, startState, options);
     }
 
     updateState(state) {
@@ -129,3 +128,4 @@ class App {
 }
 
 const app = new App();
+
