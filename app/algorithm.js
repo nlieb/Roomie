@@ -60,7 +60,7 @@ export default class Algorithm {
 
             this.temp *= this.coolRate;
             if(i++ % 1000 === 0){
-		this.animationStates.push(this.clone(newState));
+                this.animationStates.push(this.clone(newState));
             }
         }
         
@@ -80,7 +80,7 @@ export default class Algorithm {
         let visCost = this.visibilityCost(objs);
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
          
-	console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
+    console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
         return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
     }
 
