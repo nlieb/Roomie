@@ -102,17 +102,17 @@ export default class VRView {
             //console.log('VR OBJECT', obj);
             switch(obj.type) {
                 case 'chair':
-                    boxHeight = 75;
+                    boxHeight = 100;
                     break;
                     
                 case 'table':
                     itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff9933} );
-                    boxHeight = 40;
+                    boxHeight = 70;
                     break;
                 case 'lamp':
                     break;
                 case 'couch':
-                    boxHeight = 60;
+                    boxHeight = 85;
                     itemMaterial = new THREE.MeshLambertMaterial( {color: 0x3399ff} );
                     break;
                 default:
