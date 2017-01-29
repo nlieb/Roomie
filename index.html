@@ -23,8 +23,44 @@
     		</button>
         <a class="navbar-brand" href="#">Roomie</a>
       </div>
+      <div class="collapse navbar-collapse" id="navigation-doc">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <button class="btn btn-success btn-round add-nav-button" data-toggle="modal" data-target="#addItemModel">Add New Furniture</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
+  <div id="ItemsInList">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">#</th>
+          <th>Type</th>
+          <th>Width</th>
+          <th>Height</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">1</td>
+          <td>James plz be happy</td>
+          <td>69</td>
+          <td>69</td>
+          <td class="td-actions text-right">
+            <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+                    <i class="fa fa-edit"></i>
+                </button>
+            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                    <i class="fa fa-times"></i>
+                </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div id="content">
 
   </div>
@@ -34,6 +70,63 @@
     <div class="slider slider-danger" id="sliderWidth"></div>
     <h3 id="sliderHeightDisplayValue">Room Length</h3>
     <div class="slider slider-danger" id="sliderHeight"></div>
+  </div>
+
+
+
+
+  <!-- Modal Core -->
+  <div class="modal fade" id="addItemModel" tabindex="-1" role="dialog" aria-labelledby="addItemModel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Add Furniture</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+              Type:
+              <div class="radio">
+                <label>
+                <input type="radio" name="TypeInput">
+                  Couch
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                <input type="radio" name="TypeInput">
+                  Chair
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                <input type="radio" name="TypeInput">
+                  Table
+                </label>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                  <label class="control-label">Height</label>
+                  <input type="number" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                  <label class="control-label">Width</label>
+                  <input type="number" class="form-control">
+                </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-info btn-simple">Add Item</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="public/bundle.js"></script>
