@@ -97,6 +97,9 @@ export default class VRView {
         //////////////
 
         //Nathan please loop through stuff in the state here.
+        for(let obj of this.app.state.objects) {
+            console.log('VR OBJECT', obj);
+        }
             
         
         let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
@@ -120,7 +123,7 @@ export default class VRView {
         ///////////
         
         // note: 4x4 checkboard pattern scaled so that each square is 25 by 25 pixels.
-        let floorTexture = new THREE.MeshBasicMaterial( { color: 0x0080FF, side: THREE.BackSide } );
+        let floorTexture = new THREE.MeshBasicMaterial( { color: 0xaaaaaa, side: THREE.BackSide } );
         //floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
         //floorTexture.repeat.set( 10, 10 );
         // DoubleSide: render texture on both sides of mesh
@@ -140,12 +143,12 @@ export default class VRView {
         // make sure the camera's "far" value is large enough so that it will render the skyBox!
         let skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
         // BackSide: render faces from inside of the cube, instead of from outside (default).
-        let skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
+        let skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xfafafa, side: THREE.BackSide } );
         let skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
         this.scene.add(skyBox);
         
         // fog must be added to scene before first render
-        this.scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
+        this.scene.fog = new THREE.FogExp2( 0xfafafa, 0.00025 );
     }
 
     animate() {

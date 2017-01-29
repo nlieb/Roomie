@@ -5,19 +5,39 @@ export default class RoomView {
     constructor(MainView) {
         this.svg = d3.select('#content').append('svg')
             .classed('room-svg', true)
-            .attr('width', 400)
-            .attr('height', 400);
+            .attr('width', 500)
+            .attr('height', 500)
+            .style('overflow', 'visible');
+
+        this.xAxis = this.svg.append('g').classed('x-axis', true);
+        this.yAxis = this.svg.append('g').classed('y-axis', true);
 
         this.config = {
-            transitionDuration: 400
+            transitionDuration: 200
         };
     }
 
     draw(state) {
         console.log('draw state', state.objects[0].p[0]);
+        this.scale = d3.scale.linear()
+            .domain([0, state.room.size.width])
+            .range([0, state.room.size.width]);
 
-        this.svg
-            .attr('viewBox', '0 0 '+state.room.size.height + ' ' + state.room.size.width);
+        const xAxis = d3.svg.axis()
+            .tickSize([-3, 3])
+            .ticks(10)
+            .scale(this.scale)
+            .orient('top');
+
+        const yAxis = d3.svg.axis()
+            .tickSize([3, 3])
+            .ticks(10)
+            .scale(this.scale)
+            .orient('left');
+        this.xAxis.call(xAxis);
+        this.yAxis.call(yAxis);
+
+        this.svg.attr('viewBox', '0 0 '+ state.room.size.height + ' ' + state.room.size.width);
 
         const accessibilityAreas = Array.prototype.concat(
             ...state.objects.map(o => o.accessibilityAreas.map(a => ({...a, parent: o}))));

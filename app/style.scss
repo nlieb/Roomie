@@ -3,7 +3,7 @@ body {
 }
 
 svg {
-  border: 6px solid #E53935;
+  border: 1px solid #ddd;
   margin: 80px auto 0 auto;
   display: block;
 }
@@ -50,4 +50,8 @@ nav.navbar.navbar-danger {
 .navbar-brand {
   font-size: 30px;
   //font-weight: 800;
+}
+
+body svg text {
+  font-size: 4px !important;
 }
