@@ -11,7 +11,6 @@ export default class VRView {
         this.init = this.init.bind(this);
         this.animate = this.animate.bind(this);
         $('#btnStartVR').on('click', () => this.startVR());
-        $('#btnStart').on('click', () => this.app.start());
     }
 
     startVR() {
@@ -107,7 +106,9 @@ export default class VRView {
                     break;
                     
                 case 'table':
-                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff9933} );
+                    //itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff9933} );
+                    itemMaterial = new THREE.TextureLoader();
+                    itemMaterial.load('table.png');
                     boxHeight = 70;
                     break;
                 case 'lamp':
