@@ -38,7 +38,8 @@ export default class Algorithm {
         let bestState = this.clone(curState);
         let bestEnergy = curEnergy;
 
-        let i = 1, accepted = 0;
+        this.iterations = 1;
+        let accepted = 0;
         setTimeout(this.send.bind(this), 1000);
 
         while(this.temp > 1){
@@ -50,8 +51,11 @@ export default class Algorithm {
                 curEnergy = newEnergy;
 
                 if(accepted++ % 500 === 0){
-                    console.log('Accepted: ' + accepted/i * 100 + '%');
-                    this.animationStates.push(this.clone(curState));
+                    console.log('Accepted: ' + accepted/this.iterations * 100 + '%');
+                    this.animationStates.push({
+                        state: this.clone(curState),
+                        iterations: this.iterations,
+                    });
                 }
             }
             
@@ -61,18 +65,22 @@ export default class Algorithm {
             }
 
             this.temp *= this.coolRate;
-            i++;
+            this.iterations++;
         }
+
         
-        console.log('Best room has a cost of', bestEnergy, 'iterations', i);
+        console.log('Best room has a cost of', bestEnergy, 'iterations', this.iterations);
         console.log('Evaluation', this.evalFurniture(bestState));
-        this.animationStates.push(this.clone(bestState));
+        this.animationStates.push({
+            state: this.clone(bestState),
+            iterations: this.iterations,
+        });
     }
 
     send(){        
         if(this.animationStates.length){
-            let state = this.animationStates.shift();
-            this.callback(state);
+            let data = this.animationStates.shift();
+            this.callback(data);
             setTimeout(this.send.bind(this), 1000);
         }
     }

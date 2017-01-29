@@ -52,14 +52,14 @@ class App {
         const uiController = new UIController(this);
         this.options =  Options.options;
 
-        this.updateState(this.state);
+        this.updateState(this.state, 0);
     }
 
     start(){
         work(this, this.state, this.options);
     }
 
-    updateState(state) {
+    updateState(state, iterations) {
         this.state = state;
         this.views.roomView.draw(this.state);
     }
