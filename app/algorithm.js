@@ -15,6 +15,7 @@ export default class Algorithm {
         this.coolRate = 1 - options['coolRate'];
         this.state = state;
         this.callback = callback;
+        this.animationStates = [];
 
         return this.coolRate;
     }
@@ -30,6 +31,7 @@ export default class Algorithm {
         let bestEnergy = curEnergy;
 
         let i = 0;
+        setTimeout(this.send.bind(this), 1000);
 
         while(this.temp > 1){
             let newState = this.generateState(curState);
@@ -47,10 +49,19 @@ export default class Algorithm {
 
             this.temp *= this.coolRate;
             if(i++ % 1000 === 0){
-                this.callback(this.state);
+                this.animationStates.push(JSON.parse(JSON.stringify(newState)));
             }
         }
+        
         console.log('Best room has a cost of', bestEnergy);
+    }
+
+    send(){
+        if(this.animationStates.length){
+            let state = this.animationStates.pop();
+            this.callback(state);
+        }
+        setTimeout(this.send.bind(this), 1000);
     }
     
     evalFurniture(objs, prevObjs){
@@ -92,15 +103,15 @@ export default class Algorithm {
 
         let tempRatio = this.temp/this.initalTemp;
         let g = this.create_gaussian_func(0, tempRatio);
-        
+
         state.objects.forEach(function(fur, i_index) {
             let width = fur.width / 2;
             let height = fur.height / 2;
             let newx = fur.p[0] + g() * width;
             let newy = fur.p[1] + g() * height;
-            if (0 <= newx && newx <= state.room.width) // check if valid x coord
+            if(0 <= newx && (newx + width) <= state.room.size.width)
                 state.objects[i_index].p[0] = newx;
-            if (0 <= newy && newy <= state.room.height) // check if valid y coord
+            if(0 <= newy && (newy + height) <= state.room.size.height)
                 state.objects[i_index].p[1] = newy;
         });
         
@@ -208,9 +219,7 @@ export default class Algorithm {
             }
 
             let retval = mean + stdev * y1;
-            if(retval > 0) 
-                return retval;
-            return -retval;
+            return retval;
         };
     }
 }
