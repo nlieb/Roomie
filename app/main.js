@@ -64,6 +64,7 @@ class App {
     }
 
     updateState(state, iterations) {
+        state.progress = iterations;
         this.state = state;
         this.views.roomView.draw(this.state);
     }
