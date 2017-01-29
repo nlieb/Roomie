@@ -19,18 +19,24 @@ export default class RoomView {
         this.svg
             .attr('viewBox', '0 0 '+state.room.size.height + ' ' + state.room.size.width);
 
+        const accessibilityAreas = Array.prototype.concat(
+            ...state.objects.map(o => o.accessibilityAreas.map(a => ({...a, parent: o}))));
+
+        this.updateAccessibility(state, accessibilityAreas);
+
         const sel = this.svg.selectAll('rect.furniture').data(state.objects);
 
-        const enter = sel.enter().append('rect')
+        const enterFurniture = sel.enter().append('rect')
             .classed('furniture active', true)
             .attr('fill', '#000')
             .attr( {
                 width: d => d.width,
                 height: d => d.height,
-                x: d => Math.random() * (state.room.size.width - d.width),
-                y: d => Math.random() * (state.room.size.height - d.height),
+                x: d => d.p[0],
+                y: d => d.p[1],
             })
             .style('opacity', 0);
+
 
         const exit = sel.exit()
             .classed('active', false)
@@ -39,13 +45,42 @@ export default class RoomView {
             .style('opacity', 0)
             .remove();
 
-        const enterUpdate = this.svg.selectAll('rect.furniture.active')
+        const enterUpdateFurniture = this.svg.selectAll('rect.furniture.active')
             .transition()
             .duration(this.config.transitionDuration)
-            .style('opacity', 0.6)
+            .style('opacity', 0.5);
+
+
+    }
+
+    updateAccessibility(state, data) {
+        const selAccessibility = this.svg.selectAll('rect.accessibility')
+            .data(data);
+
+        const enterAccessibility = selAccessibility.enter().append('rect')
+            .classed('accessibility active', true)
+            .attr('fill', 'green')
+            .attr( {
+                width: d => d.width,
+                height: d => d.height,
+                x: d => d.parent.p[0] + d.a[0],
+                y: d => d.parent.p[1] + d.a[1],
+            })
+            .style('opacity', 0);
+
+        const exitAccessibility = selAccessibility.exit()
+            .classed('active', false)
+            .transition()
+            .duration(this.config.transitionDuration)
+            .style('opacity', 0)
+            .remove();
+
+        const enterUpdateAccessibility = this.svg.selectAll('rect.active.accessibility')
+            .transition()
+            .duration(this.config.transitionDuration)
+            .style('opacity', 0.2)
             .attr({
-                x: d => d.p[0],
-                y: d => d.p[1],
+
             });
     }
 }
