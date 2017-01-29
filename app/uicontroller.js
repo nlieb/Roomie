@@ -31,15 +31,18 @@ export default class UIController {
         let obj;
 
         //TODO: Random pos
+        const x = Math.random()*this.app.state.room.size.width;
+        const y = Math.random()*this.app.state.room.size.height;
+
         switch (type) {
             case 'chair':
-                obj = new Chair([0, 0], width, height);
+                obj = new Chair([x, y], width, height);
                 break;
             case 'table':
-                obj = new Table([0, 0], width, height);
+                obj = new Table([x, y], width, height);
                 break;
             case 'lamp':
-                obj = new GenericObject(type, [0, 0], width, height, 'lamp.png');
+                obj = new GenericObject(type, [x, y], width, height, 'lamp.png');
                 break;
             default:
                 return;
