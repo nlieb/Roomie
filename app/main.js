@@ -16,6 +16,7 @@ import work from './worker';
 import Options from './options';
 
 import { Chair, Table } from './furniture';
+import UIController from './uicontroller';
 import VectorMath from './vectormath';
 
 let noUiSlider = require('nouislider'); 
@@ -113,6 +114,7 @@ class App {
         this.views = {
             roomView: new RoomView(this),
         };
+        const uiController = new UIController(this);
         const options =  Options.options;
 
         const initialState = startState;

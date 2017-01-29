@@ -5,6 +5,7 @@
 import VectorMath from './vectormath';
 
 class Furniture {
+    //TODO: if centre = null => use random pos
     constructor(type, centre, width, height, image) {
         this.type = type;
 
@@ -45,7 +46,7 @@ class Furniture {
             area.width = this.width;
             area.height = this.height / 2 + Math.abs(offset);
         }
-        
+
         area.ad = getDiagonal(area.a, area.width, area.height);
 
         this.accessibilityAreas.push(area);
@@ -83,7 +84,7 @@ class Chair extends Furniture {
 
 class Table extends Furniture {
     constructor(centre, width, height) {
-        super('table', centre, width, height, 'table.jpg');
+        super('table', centre, width, height, 'table.png');
 
         this.addAccessibilityArea('x', 3);
         this.addAccessibilityArea('x', -3);
