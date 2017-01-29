@@ -21,6 +21,7 @@ export default class UIController {
             $btn.closest('tr').fadeOut();
         });
         $('#btnAddItem').on('click', () => this.addObject(this.app.state));
+        $('#btnStart').on('click', () => this.app.start());
 
         let noUiSlider = require('nouislider'); 
 
@@ -87,6 +88,9 @@ export default class UIController {
                 break;
             case 'couch':
                 obj = new Couch([x, y], width, height, state.room);
+                break;
+            case 'plant':
+                obj = new GenericObject(type, [x, y], width, height, 'plant.png', state.room);
                 break;
             default:
                 return;
