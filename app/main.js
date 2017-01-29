@@ -15,7 +15,7 @@ import RoomView from './room';
 import work from './worker';
 import Options from './options';
 
-import { Chair, Table } from './furniture';
+import { Chair, Table, GenericObject } from './furniture';
 import UIController from './uicontroller';
 import VectorMath from './vectormath';
 
