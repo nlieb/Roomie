@@ -1,7 +1,7 @@
 'use strict';
 
 import VectorMath from './vectormath';
-import {updatePosition, getCenterDistance} from './furniture';
+import {updatePosition, getCenterDistance, getAngle} from './furniture';
 
 /*
 This class exposes one important function, 'computeRoom'
@@ -56,7 +56,7 @@ export default class Algorithm {
             }
             
             if (curEnergy < bestEnergy){
-                bestState = curState;
+                bestState = this.clone(curState);
                 bestEnergy = curEnergy;
             }
 
@@ -77,15 +77,16 @@ export default class Algorithm {
         setTimeout(this.send.bind(this), 1000);
     }
     
-    evalFurniture(state) {
+    evalFurniture(state){
         let objs = state.objects;
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
         
-        let [prevDCost, prevTCost] = this.priorCost(state);
+        let [pairDCost, pairTCost] = this.pairwiseCost(objs);
          
-        console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
-        return 0.1*accCost + 0.01*visCost + 0.05*prevDCost + 1*prevTCost;
+        console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${pairDCost.toString()} ${pairTCost.toString()}`);
+        
+        return  accCost*50 + visCost + pairDCost*10 + pairTCost*100; // 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
     }
 
     acceptProbability(energy, newEnergy){
@@ -93,7 +94,9 @@ export default class Algorithm {
             return 1.0;
         }
         // If the new solution is worse, calculate an acceptance probability
-        return Math.exp((energy - newEnergy) / this.temp);
+        let exp = (energy - newEnergy) / this.temp * 40;
+        let prob = Math.exp(exp);
+        return prob;
     }
 
     swapFurniture(state, id1, id2){
@@ -229,7 +232,16 @@ export default class Algorithm {
 
                 if(i.pairwiseCost.type == j.type){
                     let dist = getCenterDistance(i, j);
-                    dCost += Math.abs(i.pairwiseCost.distance - dist);
+                    let angle = getAngle(i, j);
+                    let hdiff = Math.abs(i.height/2 + j.height/2 - dist);
+                    let wdiff = Math.abs(i.width/2 + j.width/2 - dist);
+                    if(wdiff < hdiff){
+                        dCost += hdiff;
+                        tCost += angle;
+                    }else{
+                        dCost += wdiff;
+                        tCost += Math.PI/2 - angle;
+                    }
                 }
             });
         });

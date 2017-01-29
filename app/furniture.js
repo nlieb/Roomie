@@ -200,6 +200,18 @@ function getCenterDistance(fur1, fur2){
 }
 
 
+function getAngle(fur1, fur2){
+    let f1x = fur1.p[0];
+    let f1y = fur1.p[1];
+    let f2x = fur2.p[0];
+    let f2y = fur2.p[1];
+
+    let xdiff = Math.abs(f1x - f2x);
+    let ydiff = Math.abs(f1y - f2y);
+    
+    return Math.atan2(ydiff, xdiff);
+}
+
 export {
     Chair,
     Table,
@@ -207,5 +219,6 @@ export {
     getDiagonal,
     getCornerDistance,
     getCenterDistance,
+    getAngle,
     updatePosition,
 };
