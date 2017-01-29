@@ -23,13 +23,13 @@ let startState = {
     positiveExamples: {
         'chair': [18, 0],
         'table': [50, Math.PI / 2],
+        'pairs': {'table': 'chair'}
     },
     objects: [
         new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
         new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
         new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
-        new Table([50, 40], 24, 12, {size: { width:100, height:100 }},
-                  {type: 'chair'}),
+        new Table([50, 40], 24, 12, {size: { width:100, height:100 }}),
     ],
     room: {
         size: { width:100, height:100 },
