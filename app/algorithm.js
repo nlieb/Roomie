@@ -38,7 +38,7 @@ export default class Algorithm {
         let bestState = this.clone(curState);
         let bestEnergy = curEnergy;
 
-        let i = 0, accepted = 0;
+        let i = 1, accepted = 0;
         setTimeout(this.send.bind(this), 1000);
 
         while(this.temp > 1){
@@ -56,7 +56,7 @@ export default class Algorithm {
             }
             
             if (curEnergy < bestEnergy){
-                bestState = this.clone(curState);
+                bestState = curState;
                 bestEnergy = curEnergy;
             }
 
@@ -124,6 +124,10 @@ export default class Algorithm {
             let height = fur.height / 2;
             let newx = fur.p[0] + g() * width;
             let newy = fur.p[1] + g() * height;
+
+            fur.theta += (g() / Math.PI) >> 2;
+            fur.theta = fur.theta % (2 * Math.PI);
+
             if(0 <= (newx - width) && (newx + width) <= state.room.size.width)
                 fur.p[0] = newx;
             if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
@@ -206,15 +210,15 @@ export default class Algorithm {
         //return [dCost, tCost];
         return [0, 0];
     }
-    
+
     pairwiseCost(curObj, prevObj) {
         let dCost = 0, tCost = 0;
-        
+
         curObj.forEach(function(i, i_index) {
             if(!i.pairwiseCost){
                 return;
             }
-                        
+
             curObj.forEach(function(j, j_index) {
                 if(i_index == j_index)
                     return;

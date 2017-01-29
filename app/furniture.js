@@ -126,7 +126,18 @@ function updatePosition(state, i){
 
     let fur = state.objects[i];
     let room = state.room;
-    
+
+    let wt;
+    let d = Math.min(fur.p[0], fur.p[1], room.width - fur.p[0], room.height - fur.p[1]);
+    if(d == fur.p[0])
+        wt = Math.PI / 2;
+    else if (d == fur.p[1])
+        wt = 0;
+    else if (d == room.width - fur.p[0])
+        wt = -Math.PI / 2;
+    else
+        wt = Math.PI;
+
     let new_furniture = {
         id: fur.id,
         type: fur.type,
@@ -134,9 +145,9 @@ function updatePosition(state, i){
         width: fur.width,
         height: fur.height,
         b: getDiagonal(fur.width, fur.height),
-        d: Math.min(fur.p[0], fur.p[1], room.width - fur.p[0], room.height - fur.p[1]),
-        theta: 0,
-        thetaWall: 0,
+        d: d,
+        theta: fur.theta,
+        thetaWall: wt - fur.theta,
         accessibilityAreas: fur.accessibilityAreas,
         viewFrustum: fur.viewFrustum,
         pairwiseCost: fur.pairwiseCost,

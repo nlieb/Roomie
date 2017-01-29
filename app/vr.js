@@ -6,7 +6,8 @@ import * as $ from 'jquery';
 import * as THREE from 'three';
 
 export default class VRView {
-    constructor(MainView) {
+    constructor(app) {
+        this.app = app;
         this.init = this.init.bind(this);
         this.animate = this.animate.bind(this);
         $('#btnStartVR').on('click', () => this.startVR());
