@@ -131,7 +131,9 @@ export default class VRView {
             let cubeGeometry = new THREE.CubeGeometry( (obj.width * 10), boxHeight, (obj.height*10));
             let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
             cube.position.set((obj.p[0]*10)-500, boxHeight/2, (obj.p[1]*10)-500);
-            cube.rotateY(obj.theta * (Math.PI / 180));
+            let deg = obj.theta * (180 / Math.PI);
+            //cube.rotateY(deg);
+            //console.log('Turned ' + deg);
             this.scene.add( cube );
         }
             

@@ -128,15 +128,17 @@ export default class Algorithm {
         let tempRatio = this.temp/this.initalTemp + 0.5;
         let g = this.create_gaussian_func(0, tempRatio);
 
-
         state.objects.forEach(function(fur, i_index) {
             let width = fur.width / 2;
             let height = fur.height / 2;
             let newx = fur.p[0] + g() * width;
             let newy = fur.p[1] + g() * height;
 
-            fur.theta += (g() / Math.PI) >> 2;
-            fur.theta = fur.theta % (2 * Math.PI);
+            /*fur.theta += (g() / Math.PI) >> 2;
+            fur.theta = fur.theta % (Math.PI * 2);
+
+            if (fur.theta < 0)
+                fur.theta += 2 * Math.PI;*/
 
             if(0 <= (newx - width) && (newx + width) <= state.room.size.width)
                 fur.p[0] = newx;
