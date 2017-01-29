@@ -5,8 +5,8 @@ export default class RoomView {
     constructor(MainView) {
         this.svg = d3.select('#content').append('svg')
             .classed('room-svg', true)
-            .attr('width', 800)
-            .attr('height', 800);
+            .attr('width', 400)
+            .attr('height', 400);
 
         this.config = {
             transitionDuration: 1000
@@ -17,16 +17,18 @@ export default class RoomView {
         console.log('draw state', state);
 
         this.svg
-            .attr('viewbox', '0 0 '+state.room.size.height + ' ' + state.room.size.width);
+            .attr('viewBox', '0 0 '+state.room.size.height + ' ' + state.room.size.width);
 
         const sel = this.svg.selectAll('rect.furniture').data(state.objects);
 
         const enter = sel.enter().append('rect')
             .classed('furniture active', true)
-            .attr('fill', '#333')
+            .attr('fill', '#000')
             .attr( {
-                width: 20,
-                height: 20,
+                width: d => d.width,
+                height: d => d.height,
+                x: d => Math.random() * (state.room.size.width - d.width),
+                y: d => Math.random() * (state.room.size.height - d.height),
             })
             .style('opacity', 0);
 
@@ -40,6 +42,10 @@ export default class RoomView {
         const enterUpdate = this.svg.selectAll('rect.furniture.active')
             .transition()
             .duration(this.config.transitionDuration)
-            .style('opacity', 1);
+            .style('opacity', 0.6)
+            .attr({
+                x: d => d.p[0],
+                y: d => d.p[1],
+            });
     }
 }
