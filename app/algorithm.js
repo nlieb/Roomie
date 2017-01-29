@@ -42,14 +42,21 @@ export default class Algorithm {
         let bestEnergy = curEnergy;
 
         let i = 0;
+<<<<<<< Updated upstream
 
         // let date = new Date();
         // let lastTime = date.getTime();
 
         setTimeout(this.send.bind(this), 1000);
+=======
+        // setTimeout(this.send.bind(this), 1000);
+
+        let date = new Date();
+        let lastTime = date.getTime();
+>>>>>>> Stashed changes
         
         while(this.temp > 1){
-            let newState = this.generateState(curState);
+            let newState = this.clone(this.generateState(curState));
             let newEnergy = this.evalFurniture(newState.objects, curState.objects);
 
             if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
@@ -64,6 +71,7 @@ export default class Algorithm {
 
             this.temp *= this.coolRate;
 
+<<<<<<< Updated upstream
             /*let curTime = date.getTime();
             if(curTime - lastTime >= 1000){
                 this.callback(this.clone(newState));
@@ -72,6 +80,12 @@ export default class Algorithm {
 
             if(++i % 1000 === 0){
                 this.animationStates.push(this.clone(newState));
+=======
+            let curTime = date.getTime();
+            if(curTime - lastTime >= 1000){
+                this.callback(this.clone(newState));
+                lastTime = curTime;
+>>>>>>> Stashed changes
             }
         }
         
@@ -89,11 +103,18 @@ export default class Algorithm {
     evalFurniture(objs, prevObjs){
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
+        
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
+<<<<<<< Updated upstream
 
         console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
 
         return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
+=======
+        let cost = 0.1*accCost + 0.01*visCost;
+        
+        return cost;
+>>>>>>> Stashed changes
     }
 
     acceptProbability(energy, newEnergy){
@@ -124,7 +145,11 @@ export default class Algorithm {
             state = this.swapFurniture(state, id1, id2);
         }
 
+<<<<<<< Updated upstream
         let tempRatio = this.temp/this.initalTemp + 0.5;
+=======
+        let tempRatio = this.temp/this.initalTemp * 2;
+>>>>>>> Stashed changes
         let g = this.create_gaussian_func(0, tempRatio);
 
 
@@ -134,6 +159,7 @@ export default class Algorithm {
             let newx = fur.p[0] + g() * width * 100;
             let newy = fur.p[1] + g() * height;
             if(0 <= (newx - width) && (newx + width) <= state.room.size.width)
+<<<<<<< Updated upstream
                 fur.p[0] = newx;
             if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
                 fur.p[1] = newy;
@@ -141,6 +167,13 @@ export default class Algorithm {
             state.objects[i_index] = updatePosition(fur);
         });
 
+=======
+                state.objects[i_index].p[0] = newx;
+            if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
+                state.objects[i_index].p[1] = newy;
+        });
+        
+>>>>>>> Stashed changes
         return this.clone(state);
     }
 
