@@ -96,7 +96,7 @@ class Table extends Furniture {
         this.addAccessibilityArea('y', 3);
         this.addAccessibilityArea('y', -3);
 
-        this.setImage('table.jpg');
+        this.setImage('table.png');
     }
 }
 

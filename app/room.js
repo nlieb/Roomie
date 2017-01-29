@@ -24,9 +24,9 @@ export default class RoomView {
 
         this.updateAccessibility(state, accessibilityAreas);
 
-        const sel = this.svg.selectAll('rect.furniture').data(state.objects);
+        const sel = this.svg.selectAll('image.furniture').data(state.objects);
 
-        const enterFurniture = sel.enter().append('rect')
+        const enterFurniture = sel.enter().append('image')
             .classed('furniture active', true)
             .attr('fill', '#000')
             .attr( {
@@ -35,6 +35,7 @@ export default class RoomView {
                 x: d => d.p[0] - d.width/2,
                 y: d => d.p[1] - d.height/2,
             })
+            .attr('xlink:href', d => 'public/img/' + d.image)
             .style('opacity', 0);
 
 
@@ -45,10 +46,10 @@ export default class RoomView {
             .style('opacity', 0)
             .remove();
 
-        const enterUpdateFurniture = this.svg.selectAll('rect.furniture.active')
+        const enterUpdateFurniture = this.svg.selectAll('image.furniture.active')
             .transition()
             .duration(this.config.transitionDuration)
-            .style('opacity', 0.5);
+            .style('opacity', 1);
 
 
     }
