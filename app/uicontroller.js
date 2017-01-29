@@ -21,6 +21,43 @@ export default class UIController {
             $btn.closest('tr').fadeOut();
         });
         $('#btnAddItem').on('click', () => this.addObject(this.app.state));
+
+        let noUiSlider = require('nouislider'); 
+
+        let sliderWidth = document.getElementById('sliderWidth');
+        let sliderHeight = document.getElementById('sliderHeight');
+
+        noUiSlider.create(sliderWidth, {
+        start: 100,
+        connect: 'lower',
+        step: 1,
+        range: {
+            min: 50,
+            max: 150
+        },
+        });
+
+        let sliderWidthDisplayValue = document.getElementById('sliderWidthDisplayValue');
+
+        sliderWidth.noUiSlider.on('update', function( values, handle ) {
+            sliderWidthDisplayValue.innerHTML = 'Room Width: ' + parseInt(values[handle]);
+        });
+
+        noUiSlider.create(sliderHeight, {
+        start: 100,
+        step: 1,
+        connect: 'lower',
+        range: {
+            min: 50,
+            max: 150
+        }
+        });
+
+        let sliderHeightDisplayValue = document.getElementById('sliderHeightDisplayValue');
+
+        sliderHeight.noUiSlider.on('update', function( values, handle ) {
+            sliderHeightDisplayValue.innerHTML = 'Room Length: ' + parseInt(values[handle]);
+        });
     }
 
     addObject(state) {
