@@ -4,14 +4,19 @@
 
 import * as GUID from 'guid';
 import VectorMath from './vectormath';
+import { DistanceOp } from 'jsts';
 
 class Furniture {
     //TODO: if centre = null => use random pos
-    constructor(type, centre, width, height, image) {
+    constructor(type, centre, width, height, image, room) {
         this.id = GUID.raw();
+        this.room = room;
         this.type = type;
 
         this.p = centre;
+
+        this.distanceOp = new DistanceOp(this.p);
+
         this.width = width;
         this.height = height;
 
@@ -27,7 +32,8 @@ class Furniture {
         this.image = image;
     }
 
-    wallCalc() {
+    updatePosition() {
+
     }
 
     /**
@@ -71,8 +77,8 @@ class Furniture {
 }
 
 class Chair extends Furniture {
-    constructor(centre, width, height) {
-        super('chair', centre, width, height, 'chair.png');
+    constructor(centre, width, height, room) {
+        super('chair', centre, width, height, 'chair.png', room);
 
         this.addAccessibilityArea('x', 2);
         this.addAccessibilityArea('x', -2);
@@ -84,8 +90,8 @@ class Chair extends Furniture {
 }
 
 class Table extends Furniture {
-    constructor(centre, width, height) {
-        super('table', centre, width, height, 'table.png');
+    constructor(centre, width, height, room) {
+        super('table', centre, width, height, 'table.png', room);
 
         this.addAccessibilityArea('x', 3);
         this.addAccessibilityArea('x', -3);
@@ -95,8 +101,8 @@ class Table extends Furniture {
 }
 
 class GenericObject extends Furniture {
-    constructor(type, centre, width, height, image) {
-        super(type, centre, width, height, image);
+    constructor(type, centre, width, height, image, room) {
+        super(type, centre, width, height, image, room);
 
         this.addAccessibilityArea('x', 3);
         this.addAccessibilityArea('x', -3);
