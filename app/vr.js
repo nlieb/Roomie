@@ -39,7 +39,7 @@ export default class VRView {
         this.scene.add(this.camera);
         // the camera defaults to position (0,0,0)
         // 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
-        this.camera.position.set(0,600,600);
+        this.camera.position.set(0,600,700);
         this.camera.lookAt(this.scene.position);	
         
         //////////////
@@ -49,7 +49,7 @@ export default class VRView {
         // create and start the renderer; choose antialias setting.
         this.renderer = new THREE.WebGLRenderer();
         
-        this.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT/2);
         
         // attach div element to variable to contain the renderer
         document.body.appendChild( this.renderer.domElement );
