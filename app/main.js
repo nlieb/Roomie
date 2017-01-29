@@ -27,9 +27,9 @@ let startState = {
         'pairs': {'table': 'chair', 'lamp': 'couch'}
     },
     objects: [
-        new Chair([20, 25], 12, 12, {size: { width:100, height:100 }}),
-        new Chair([20, 25], 12, 12, {size: { width:100, height:100 }}),
-        new Chair([20, 25], 12, 12, {size: { width:100, height:100 }}),
+        new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
+        new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
+        new Chair([20, 25], 8, 8, {size: { width:100, height:100 }}),
         new Table([50, 40], 36, 18, {size: { width:100, height:100 }}),
         new Couch([50, 80], 36, 12, {size: { width:100, height:100 }}),
         new GenericObject('lamp', [80, 80], 5, 8, 'lamp.png', {size: { width:100, height:100 }}),

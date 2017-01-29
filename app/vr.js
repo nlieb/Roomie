@@ -39,7 +39,7 @@ export default class VRView {
         this.scene.add(this.camera);
         // the camera defaults to position (0,0,0)
         // 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
-        this.camera.position.set(0,600,700);
+        this.camera.position.set(0,300,600);
         this.camera.lookAt(this.scene.position);	
         
         //////////////
@@ -95,7 +95,7 @@ export default class VRView {
         //////////////
         // GEOMETRY //
         //////////////
-        let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
+        let itemMaterial = new THREE.MeshLambertMaterial( {color: 0x3E2723} );
         //Nathan please loop through stuff in the state here.
         let boxHeight = 150;
         for(let obj of this.app.state.objects) {
@@ -106,7 +106,7 @@ export default class VRView {
                     break;
                     
                 case 'table':
-                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff9933} );
+                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0x4E342E} );
                     //itemMaterial = new THREE.TextureLoader();
                     //itemMaterial.load('/public/img/table.png');
                     boxHeight = 70;
