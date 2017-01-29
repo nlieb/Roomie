@@ -29,14 +29,19 @@ function vector_subtract(v1, v2) {
 function vector_magnitude(v) {
     let m = 0;
     for (let e in v) {
-        m += e ^ 2;
+        m += e * e;
     }
 
     return Math.sqrt(m);
 }
 
+function get_diagonal(centre, width, height) {
+    return vector_magnitude(vector_subtract(centre, [centre[0] - width / 2, centre[1] - height / 2]));
+}
+
 export default {
     add: vector_add,
     subtract: vector_subtract,
-    magnitude: vector_magnitude
+    magnitude: vector_magnitude,
+    diagonal: get_diagonal,
 };

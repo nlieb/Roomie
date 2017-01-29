@@ -1,6 +1,7 @@
 'use strict';
 
 import VectorMath from './vectormath';
+import updatePosition from './object';
 
 /*
 This class exposes one important function, 'computeRoom'
@@ -89,8 +90,11 @@ export default class Algorithm {
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
-        
-        return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
+        let cost = 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
+
+        console.log('TEST', cost);
+
+        return cost;
     }
 
     acceptProbability(energy, newEnergy){
@@ -131,11 +135,13 @@ export default class Algorithm {
             let newx = fur.p[0] + g() * width * 100;
             let newy = fur.p[1] + g() * height;
             if(0 <= (newx - width) && (newx + width) <= state.room.size.width)
-                state.objects[i_index].p[0] = newx;
+                fur.p[0] = newx;
             if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
-                state.objects[i_index].p[1] = newy;
-        });
+                fur.p[1] = newy;
 
+            state.objects[i_index] = updatePosition(fur);
+        });
+        
         return this.clone(state);
     }
 
@@ -156,6 +162,8 @@ export default class Algorithm {
 
                 for(let area of j.accessibilityAreas) {
                     let dem = i.b + area.ad; //TODO: i.b + area.ad
+
+                    console.log(i.b, area.ad);
 
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at accessibility');

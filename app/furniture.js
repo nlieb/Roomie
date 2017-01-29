@@ -15,7 +15,7 @@ class Furniture {
         this.width = width;
         this.height = height;
 
-        this.b = getDiagonal(this.p, this.width, this.height);
+        this.b = VectorMath.diagonal(this.p, this.width, this.height);
 
         this.d = Math.min(this.p[0], this.p[1]);
         this.theta = 0;
@@ -48,7 +48,7 @@ class Furniture {
             area.height = this.height / 2 + Math.abs(offset);
         }
 
-        area.ad = getDiagonal(area.a, area.width, area.height);
+        area.ad = VectorMath.diagonal(area.a, area.width, area.height);
 
         this.accessibilityAreas.push(area);
     }
@@ -62,7 +62,7 @@ class Furniture {
             viewBox.v = [0, offset];
             viewBox.width = this.width + 2 * i;
             viewBox.height = 2;
-            viewBox.vd = getDiagonal(viewBox.v, viewBox.width, viewBox.height);
+            viewBox.vd = VectorMath.diagonal(viewBox.v, viewBox.width, viewBox.height);
 
             this.viewFrustum.push(viewBox);
             offset += 2;
@@ -103,10 +103,6 @@ class GenericObject extends Furniture {
         this.addAccessibilityArea('y', 3);
         this.addAccessibilityArea('y', -3);
     }
-}
-
-function getDiagonal(centre, width, height) {
-    return VectorMath.magnitude(VectorMath.subtract(centre, [centre[0] - width / 2, centre[1] - height / 2]));
 }
 
 export {
