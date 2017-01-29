@@ -1,6 +1,7 @@
 'use strict';
 
 import VectorMath from './vectormath';
+import updatePosition from './object';
 
 /*
 This class exposes one important function, 'computeRoom'
@@ -133,9 +134,11 @@ export default class Algorithm {
             let newx = fur.p[0] + g() * width * 100;
             let newy = fur.p[1] + g() * height;
             if(0 <= (newx - width) && (newx + width) <= state.room.size.width)
-                state.objects[i_index].p[0] = newx;
+                fur.p[0] = newx;
             if(0 <= (newy - height) && (newy + height) <= state.room.size.height)
-                state.objects[i_index].p[1] = newy;
+                fur.p[1] = newy;
+
+            state.objects[i_index] = updatePosition(fur);
         });
 
         return this.clone(state);
@@ -150,10 +153,10 @@ export default class Algorithm {
 
         let cost = 0;
         
-        objs.forEach(function(i) {
-            objs.forEach(function(j) {
+        objs.forEach(function(i, i_index) {
+            objs.forEach(function(j, j_index) {
 
-                if(i.id === j.id)
+                if(i_index === j_index)
                     return;
 
                 for(let area of j.accessibilityAreas) {
@@ -179,10 +182,10 @@ export default class Algorithm {
 
         let cost = 0;
 
-        objs.forEach(function(i) {
-            objs.forEach(function(j) {
+        objs.forEach(function(i, i_index) {
+            objs.forEach(function(j, j_index) {
 
-                if(i.id === j.id)
+                if(i_index === j_index)
                     return;
 
                 for(let viewBox of j.viewFrustum) {
@@ -190,7 +193,7 @@ export default class Algorithm {
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at visbility');
 
-                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, VectorMath.add(j.p, viewBox.v))) / dem));
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, viewBox.v)) / dem));
                 }
 
             });
