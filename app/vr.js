@@ -10,7 +10,10 @@ export default class VRView {
         this.app = app;
         this.init = this.init.bind(this);
         this.animate = this.animate.bind(this);
-        $('#btnStartVR').on('click', () => this.startVR());
+        $('#btnStartVR').on('click', () => {
+            $('canvas').remove();
+            this.startVR();
+        });
     }
 
     startVR() {
