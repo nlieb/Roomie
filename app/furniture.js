@@ -64,7 +64,7 @@ class Furniture {
     }
 
     addViewFrustum(levels) {
-        let levels = levels || this.height >> 2; //height / 4: int
+        levels = levels || this.height >> 2; //height / 4: int
         let offset = this.height / 2 + 1;
 
         for (let i = 0; i < levels; i++) {
