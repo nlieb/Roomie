@@ -17,6 +17,30 @@ import Options from './options';
 
 import VectorMath from './vectormath';
 
+let noUiSlider = require('nouislider'); 
+
+let sliderWidth = document.getElementById('sliderWidth');
+let sliderHeight = document.getElementById('sliderHeight');
+
+noUiSlider.create(sliderWidth, {
+  start: 40,
+  connect: 'lower',
+  range: {
+    min: 0,
+    max: 500
+  },
+  tooltips: true,
+});
+
+noUiSlider.create(sliderHeight, {
+  start: 40,
+  connect: 'lower',
+  range: {
+    min: 0,
+    max: 500
+  }
+});
+
 let startState = {
     objects: [
         {type: 'chair',
