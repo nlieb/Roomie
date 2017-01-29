@@ -22,22 +22,19 @@ export default class Algorithm {
     }
 
     clone(obj) {
-        if (null == obj || 'object' != typeof obj) return obj;
-        let copy = obj.constructor();
-        for (let attr in obj) {
-            if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-        }
-        return copy;
+        return JSON.parse(JSON.stringify(obj));
     }
-
 
     computeRoom(){
         /**
            Main function of the algorithm, tries to find the best room
            given with the provided room objects
         **/
-        let curState = this.generateState(this.state);
-        let curEnergy = this.evalFurniture(curState.objects, curState.objects);
+        let curState = this.generateState(this.clone(this.state));
+        let newState = this.generateState(this.clone(this.state));
+        let curEnergy = this.evalFurniture(newState.objects, curState.objects);
+        this.animationStates.push(this.clone(curState));
+        
         let bestState = this.clone(curState);
         let bestEnergy = curEnergy;
 
@@ -45,7 +42,7 @@ export default class Algorithm {
         setTimeout(this.send.bind(this), 1000);
 
         while(this.temp > 1){
-            let newState = this.generateState(curState);
+            newState = this.generateState(this.clone(curState));
             let newEnergy = this.evalFurniture(newState.objects, curState.objects);
 
             if ( this.acceptProbability(curEnergy, newEnergy) > Math.random() ){
@@ -64,7 +61,8 @@ export default class Algorithm {
             }
         }
         
-         console.log('Best room has a cost of', bestEnergy, 'iterations', i);
+        console.log('Best room has a cost of', bestEnergy, 'iterations', i);
+        this.callback(bestState);
     }
 
     send(){
@@ -129,7 +127,7 @@ export default class Algorithm {
 
             state.objects[i_index] = updatePosition(fur);
         });
-        
+
         return this.clone(state);
     }
 
