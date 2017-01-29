@@ -142,32 +142,32 @@ export default class Algorithm {
     }
 
     visibilityCost(objs) {
-            /**
-             * i is the parent object
-             * j is the child object
-             */
+        /**
+         * i is the parent object
+         * j is the child object
+         */
 
-            let cost = 0;
+        let cost = 0;
 
-            objs.forEach(function(i, i_index) {
-                objs.forEach(function(j, j_index) {
+        objs.forEach(function(i, i_index) {
+            objs.forEach(function(j, j_index) {
 
-                    if(i_index === j_index)
-                        return;
+                if(i_index === j_index)
+                    return;
 
-                    let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
+                let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
 
-                    for(let viewBox of j.viewFrustum) {
-                        let vd = VectorMath.magnitude(VectorMath.subtract(viewBox.v, [viewBox.v[0] - viewBox.width / 2, viewBox.v[1] - viewBox.height / 2]));
-                        let dem = b + vd;
-                        if (dem == 0 || isNaN(dem))
-                            throw new Error('Error: Division by 0 at visbility');
+                for(let viewBox of j.viewFrustum) {
+                    let vd = VectorMath.magnitude(VectorMath.subtract(viewBox.v, [viewBox.v[0] - viewBox.width / 2, viewBox.v[1] - viewBox.height / 2]));
+                    let dem = b + vd;
+                    if (dem == 0 || isNaN(dem))
+                        throw new Error('Error: Division by 0 at visbility');
 
-                        cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, viewBox.v)) / dem));
-                    }
+                    cost += Math.max(0, 1 - (VectorMath.magnitude(VectorMath.subtract(i.p, viewBox.v)) / dem));
+                }
 
-                });
             });
+        });
 
         return cost;
     }
