@@ -14,7 +14,7 @@ export default class RoomView {
     }
 
     draw(state) {
-        console.log('draw state', state);
+        console.log('draw state', state.objects[0].p[0]);
 
         this.svg
             .attr('viewBox', '0 0 '+state.room.size.height + ' ' + state.room.size.width);
