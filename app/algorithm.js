@@ -50,7 +50,7 @@ export default class Algorithm {
                 curState = this.clone(newState);
                 curEnergy = newEnergy;
 
-                if(accepted++ % 500 === 0){
+                if(accepted++ % 200 === 0){
                     console.log('Accepted: ' + accepted/this.iterations * 100 + '%');
                     this.animationStates.push({
                         state: this.clone(curState),
@@ -81,7 +81,7 @@ export default class Algorithm {
         if(this.animationStates.length){
             let data = this.animationStates.shift();
             this.callback(data);
-            setTimeout(this.send.bind(this), 1000);
+            setTimeout(this.send.bind(this), 300);
         }
     }
     
