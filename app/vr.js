@@ -39,7 +39,7 @@ export default class VRView {
         this.scene.add(this.camera);
         // the camera defaults to position (0,0,0)
         // 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
-        this.camera.position.set(0,150,400);
+        this.camera.position.set(0,600,600);
         this.camera.lookAt(this.scene.position);	
         
         //////////////
@@ -97,11 +97,30 @@ export default class VRView {
         //////////////
         let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
         //Nathan please loop through stuff in the state here.
+        let boxHeight = 150;
         for(let obj of this.app.state.objects) {
             //console.log('VR OBJECT', obj);
-            let cubeGeometry = new THREE.CubeGeometry( (obj.width * 10), 150, (obj.height*10));
+            switch(obj.type) {
+                case 'chair':
+                    boxHeight = 75;
+                    break;
+                    
+                case 'table':
+                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff9933} );
+                    boxHeight = 40;
+                    break;
+                case 'lamp':
+                    break;
+                case 'couch':
+                    boxHeight = 60;
+                    itemMaterial = new THREE.MeshLambertMaterial( {color: 0x3399ff} );
+                    break;
+                default:
+                    return;
+            }
+            let cubeGeometry = new THREE.CubeGeometry( (obj.width * 10), boxHeight, (obj.height*10));
             let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
-            cube.position.set((obj.p[0]*10)-500, 50, (obj.p[1]*10)-500);
+            cube.position.set((obj.p[0]*10)-500, boxHeight/2, (obj.p[1]*10)-500);
             this.scene.add( cube );
         }
             
