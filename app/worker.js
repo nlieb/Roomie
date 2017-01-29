@@ -9,8 +9,9 @@ export default function work(app, state, options){
     };
     let worker = new MyWorker();
     worker.onmessage = function(e){
-        let state = e.data;
-        app.updateState(state);
+        let state = e.data.state;
+        let iterations = e.data.iterations;
+        app.updateState(state, iterations);
     };
     worker.postMessage(data);
 }
