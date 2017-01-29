@@ -50,6 +50,12 @@ export default class RoomView {
         const enterUpdateFurniture = this.svg.selectAll('image.furniture.active')
             .transition()
             .duration(this.config.transitionDuration)
+            .attr( {
+                width: d => d.width,
+                height: d => d.height,
+                x: d => d.p[0] - d.width/2,
+                y: d => d.p[1] - d.height/2,
+            })
             .style('opacity', 1);
 
 
@@ -80,6 +86,12 @@ export default class RoomView {
         const enterUpdateAccessibility = this.svg.selectAll('rect.active.accessibility')
             .transition()
             .duration(this.config.transitionDuration)
+            .attr( {
+                width: d => d.width,
+                height: d => d.height,
+                x: d => d.parent.p[0] + d.a[0] - d.width/2,
+                y: d => d.parent.p[1] + d.a[1] - d.height/2,
+            })
             .style('opacity', 0.2);
     }
 }
