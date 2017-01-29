@@ -75,19 +75,19 @@
               Type:
               <div class="radio">
                 <label>
-                <input type="radio" name="TypeInput" value="couch">
+                <input type="radio" name="AddTypeInput" value="couch">
                   Couch
                 </label>
               </div>
               <div class="radio">
                 <label>
-                <input type="radio" name="TypeInput" value="chair" checked="true">
+                <input type="radio" name="AddTypeInput" value="chair" checked="true">
                   Chair
                 </label>
               </div>
               <div class="radio">
                 <label>
-                <input type="radio" name="TypeInput" value="table">
+                <input type="radio" name="AddTypeInput" value="table">
                   Table
                 </label>
               </div>
@@ -95,13 +95,13 @@
             <div class="col-md-4">
                 <div class="form-group label-floating">
                   <label class="control-label">Height</label>
-                  <input id="height" type="number" class="form-control">
+                  <input id="AddHeight" type="number" class="form-control">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group label-floating">
                   <label class="control-label">Width</label>
-                  <input id="width" type="number" class="form-control">
+                  <input id="AddWidth" type="number" class="form-control">
                 </div>
             </div>
           </div>
@@ -121,7 +121,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Remove Furniture</h4>
+          <h4 class="modal-title" id="myModalLabel">Edit Furniture</h4>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -129,19 +129,19 @@
               Type:
               <div class="radio">
                 <label>
-                <input type="radio" name="TypeInput" value="Couch">
+                <input type="radio" name="EditTypeInput" value="Couch">
                   Couch
                 </label>
               </div>
               <div class="radio">
                 <label>
-                <input type="radio" name="TypeInput" value="Chair">
+                <input type="radio" name="EditTypeInput" value="Chair">
                   Chair
                 </label>
               </div>
               <div class="radio">
                 <label>
-                <input type="radio" name="TypeInput" value="Table">
+                <input type="radio" name="EditTypeInput" value="Table">
                   Table
                 </label>
               </div>
@@ -149,21 +149,21 @@
             <div class="col-md-4">
                 <div class="form-group label-floating">
                   <label class="control-label">Height</label>
-                  <input id="height" type="number" class="form-control">
+                  <input id="EditHeight" type="number" class="form-control">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group label-floating">
                   <label class="control-label">Width</label>
-                  <input id="width" type="number" class="form-control">
+                  <input id="EditWidth"  class="form-control">
                 </div>
             </div>
           </div>
 
         </div>
         <div class="modal-footer">
-          <button id="btnEditItem" type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
-          <button id="btnAddItem" type="button" class="btn btn-info btn-simple" data-dismiss="modal">Edit Item</button>
+          <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+          <button id="btnEditItem" type="button" class="btn btn-info btn-simple" data-dismiss="modal">Edit Item</button>
         </div>
       </div>
     </div>
