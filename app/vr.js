@@ -95,19 +95,26 @@ export default class VRView {
         //////////////
         // GEOMETRY //
         //////////////
-
+        let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
         //Nathan please loop through stuff in the state here.
+        for(let obj of this.app.state.objects) {
+            //console.log('VR OBJECT', obj);
+            let cubeGeometry = new THREE.CubeGeometry( (obj.width * 10), 150, (obj.height*10));
+            let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
+            cube.position.set((obj.p[0]*10)-500, 50, (obj.p[1]*10)-500);
+            this.scene.add( cube );
+        }
             
         
-        let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
+        //let itemMaterial = new THREE.MeshLambertMaterial( {color: 0xff3333} ); 
         // Cube parameters: width (x), height (y), depth (z), 
         //        (optional) segments along x, segments along y, segments along z
-        let cubeGeometry = new THREE.CubeGeometry( 200, 150, 100);
+        //let cubeGeometry = new THREE.CubeGeometry( 200, 150, 100);
         // using THREE.MeshFaceMaterial() in the constructor below
         //   causes the mesh to use the materials stored in the geometry
-        let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
-        cube.position.set(-100, 50, -50);
-        this.scene.add( cube );	
+        //let cube = new THREE.Mesh( cubeGeometry, itemMaterial );
+        //cube.position.set(-100, 50, -50);
+        //this.scene.add( cube );	
 
 
         // create a set of coordinate axes to help orient user
@@ -120,7 +127,7 @@ export default class VRView {
         ///////////
         
         // note: 4x4 checkboard pattern scaled so that each square is 25 by 25 pixels.
-        let floorTexture = new THREE.MeshBasicMaterial( { color: 0x0080FF, side: THREE.BackSide } );
+        let floorTexture = new THREE.MeshBasicMaterial( { color: 0xaaaaaa, side: THREE.BackSide } );
         //floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
         //floorTexture.repeat.set( 10, 10 );
         // DoubleSide: render texture on both sides of mesh
@@ -140,12 +147,12 @@ export default class VRView {
         // make sure the camera's "far" value is large enough so that it will render the skyBox!
         let skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
         // BackSide: render faces from inside of the cube, instead of from outside (default).
-        let skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
+        let skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xfafafa, side: THREE.BackSide } );
         let skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
         this.scene.add(skyBox);
         
         // fog must be added to scene before first render
-        this.scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
+        this.scene.fog = new THREE.FogExp2( 0xfafafa, 0.00025 );
     }
 
     animate() {
