@@ -50,10 +50,13 @@ class App {
         this.state = startState;
 
         const uiController = new UIController(this);
-        const options =  Options.options;
+        this.options =  Options.options;
 
         this.updateState(this.state);
-        work(this, startState, options);
+    }
+
+    start(){
+        work(this, this.state, this.options);
     }
 
     updateState(state) {
