@@ -73,13 +73,13 @@ export default class UIController {
 
         switch (type) {
             case 'chair':
-                obj = new Chair([x, y], width, height);
+                obj = new Chair([x, y], width, height, state.room);
                 break;
             case 'table':
-                obj = new Table([x, y], width, height);
+                obj = new Table([x, y], width, height, state.room);
                 break;
             case 'lamp':
-                obj = new GenericObject(type, [x, y], width, height, 'lamp.png');
+                obj = new GenericObject(type, [x, y], width, height, 'lamp.png', state.room);
                 break;
             default:
                 return;
