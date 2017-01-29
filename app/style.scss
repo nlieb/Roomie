@@ -4,11 +4,16 @@ body {
 
 svg {
   border: 2px solid #666;
-  margin: 60px auto 0 auto;
+  margin: 5px auto 0 auto;
   display: block;
 }
 
 #sliders {
-  padding: 30px 100px 0px 100px;
+  padding: 10px 100px 0px 100px;
+  display: block;
+}
+
+#ItemsInList   {
+  padding: 5px 100px 5px 100px;
   display: block;
 }
