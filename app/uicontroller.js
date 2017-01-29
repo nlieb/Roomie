@@ -86,7 +86,7 @@ export default class UIController {
                 obj = new GenericObject(type, [x, y], width, height, 'lamp.png', state.room);
                 break;
             case 'couch':
-                obj = new GenericObject(type, [x, y], width, height, 'lamp.png', state.room);
+                obj = new GenericObject(type, [x, y], width, height, 'couch.png', state.room);
                 break;
             default:
                 return;
