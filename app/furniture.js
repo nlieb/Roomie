@@ -28,7 +28,6 @@ class Furniture {
     }
 
     wallCalc() {
-
     }
 
     /**

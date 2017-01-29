@@ -69,7 +69,7 @@ export default class Algorithm {
         let visCost = this.visibilityCost(objs);
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
         
-        return 0.1*accCost + 0.01*visCost;
+        return 0.1*accCost + 0.01*visCost + 1*prevDCost + 10*prevTCost;
     }
 
     acceptProbability(energy, newEnergy){
