@@ -23,23 +23,39 @@ let sliderWidth = document.getElementById('sliderWidth');
 let sliderHeight = document.getElementById('sliderHeight');
 
 noUiSlider.create(sliderWidth, {
-  start: 40,
+  start: 100,
   connect: 'lower',
+  step: 1,
   range: {
-    min: 0,
-    max: 500
+    min: 50,
+    max: 150
   },
-  tooltips: true,
+});
+
+let sliderWidthDisplayValue = document.getElementById('sliderWidthDisplayValue');
+
+sliderWidth.noUiSlider.on('update', function( values, handle ) {
+    sliderWidthDisplayValue.innerHTML = 'Room Width: ' + parseInt(values[handle]);
 });
 
 noUiSlider.create(sliderHeight, {
-  start: 40,
+  start: 100,
+  step: 1,
   connect: 'lower',
   range: {
-    min: 0,
-    max: 500
+    min: 50,
+    max: 150
   }
 });
+
+let sliderHeightDisplayValue = document.getElementById('sliderHeightDisplayValue');
+
+sliderHeight.noUiSlider.on('update', function( values, handle ) {
+    sliderHeightDisplayValue.innerHTML = 'Room Length: ' + parseInt(values[handle]);
+});
+
+
+
 
 let startState = {
     objects: [
