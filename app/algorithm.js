@@ -78,6 +78,7 @@ export default class Algorithm {
     evalFurniture(objs, prevObjs){
         let accCost = this.accessibilityCost(objs);
         let visCost = this.visibilityCost(objs);
+        
         let [prevDCost, prevTCost] = this.priorCost(objs, prevObjs);
          
     console.log(`Costs: ${accCost.toString()} ${visCost.toString()} ${prevDCost.toString()} ${prevTCost.toString()}`);
@@ -119,7 +120,7 @@ export default class Algorithm {
         state.objects.forEach(function(fur, i_index) {
             let width = fur.width / 2;
             let height = fur.height / 2;
-            let newx = fur.p[0] + g() * width * 100;
+            let newx = fur.p[0] + g() * width;
             let newy = fur.p[1] + g() * height;
             if(0 <= (newx - width) && (newx + width) <= state.room.size.width)
                 fur.p[0] = newx;
@@ -128,7 +129,7 @@ export default class Algorithm {
 
             state.objects[i_index] = updatePosition(fur);
         });
-
+        
         return this.clone(state);
     }
 
@@ -180,8 +181,11 @@ export default class Algorithm {
                 if(i_index === j_index)
                     return;
 
+                let b = VectorMath.magnitude(VectorMath.subtract(i.p, [i.p[0] - i.width / 2, i.p[1] - i.height / 2]));
+
                 for(let viewBox of j.viewFrustum) {
-                    let dem = i.b + viewBox.vd;
+                    let vd = VectorMath.magnitude(VectorMath.subtract(viewBox.v, [viewBox.v[0] - viewBox.width / 2, viewBox.v[1] - viewBox.height / 2]));
+                    let dem = b + vd;
                     if (dem == 0 || isNaN(dem))
                         throw new Error('Error: Division by 0 at visbility');
 
