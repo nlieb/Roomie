@@ -8,15 +8,25 @@ import { Chair, Table, GenericObject } from './furniture';
 export default class UIController {
     constructor(app) {
         this.app = app;
+        const self = this;
 
+        $(document).on('click','.removeItem', function() {
+            const $btn = $(this);
+            const objArray = self.app.state.objects.filter(d => d.id === $btn.attr('data-id'));
+            const obj = objArray.pop();
+            const objIdx = self.app.state.objects.indexOf(obj);
+            self.app.state.objects.splice(objIdx, 1);
+            self.app.updateState(self.app.state);
+
+            $btn.closest('tr').fadeOut();
+        });
         $('#btnAddItem').on('click', () => this.addObject(this.app.state));
-
     }
 
     addObject(state) {
         let type = $('input[name="TypeInput"]:checked').val();
-        let width = $('#width').val();
-        let height = $('#height').val();
+        let width = parseInt($('#width').val());
+        let height = parseInt($('#height').val());
 
         let obj;
 
@@ -67,13 +77,12 @@ export default class UIController {
                             <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button type="button" id="btnRemoveItem" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs rbutton">
+                            <button type="button" rel="tooltip" title="Remove" data-id="${obj.id}" class="btn btn-danger removeItem btn-simple btn-xs rbutton">
                                 <i class="fa fa-times"></i>
                             </button>
                         </td>
                       </tr>`;
 
         $('table tbody').append(markup);
-        $('#btnRemoveItem').on('click', () => this.removeObject(this.app.state, $('#btnRemoveItem')));
     }
 }
